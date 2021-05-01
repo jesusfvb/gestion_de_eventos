@@ -12,8 +12,9 @@ import com.backend.backend.servicios.UsuarioS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,21 +32,29 @@ public class UsuarioC {
         return ResponseEntity.ok(ListUsuario_ListListarUsuario(servicios.listar()));
     }
 
-    @PostMapping
+    @PutMapping
     public ResponseEntity<List<ListarUsuario>> nuevo(@RequestBody NuevoUsuario usuario) {
-        servicios.salvar(usuario.getNombre(), usuario.getApellido(), usuario.getUsuario(), usuario.getCarnetIdentidad());
+        servicios.salvar(usuario.getNombre(), usuario.getApellido(), usuario.getUsuario(),
+                usuario.getCarnetIdentidad());
+        return ResponseEntity.ok(ListUsuario_ListListarUsuario(servicios.listar()));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<List<ListarUsuario>> eliminar(@RequestBody Integer[] ids) {
+        servicios.eliminar(ids);
         return ResponseEntity.ok(ListUsuario_ListListarUsuario(servicios.listar()));
     }
 
     private List<ListarUsuario> ListUsuario_ListListarUsuario(List<Usuario> lista) {
         List<ListarUsuario> salida = new LinkedList<>();
         List<RolConst> roles = new LinkedList<>();
-        lista.forEach(usuario->{
+        lista.forEach(usuario -> {
             roles.clear();
-            usuario.getRoles().forEach(rol->{
+            usuario.getRoles().forEach(rol -> {
                 roles.add(rol.getRol());
             });
-            salida.add(new ListarUsuario(usuario.getNombre(), usuario.getApellido(), usuario.getUsuario(), roles));
+            salida.add(new ListarUsuario(usuario.getId(), usuario.getNombre(), usuario.getApellido(),
+                    usuario.getUsuario(), usuario.getCarnetIdentidad(), roles));
         });
         return salida;
     }

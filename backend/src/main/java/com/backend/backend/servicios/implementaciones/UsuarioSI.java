@@ -35,6 +35,13 @@ public class UsuarioSI implements UsuarioS {
         repositorio.save(new Usuario(nombre, apellido, usuario, usuario, carnetIdentidad, roles));
     }
 
+    @Override
+    public void eliminar(Integer[] ids) {
+       for (Integer id : ids) {
+           repositorio.deleteById(id);
+       }
+    }
+
     private Rol comprobar_anadir_Rol(RolConst rol) {
         Rol salida;
         if (repositorioRol.exists(Example.of(new Rol(rol)))) {

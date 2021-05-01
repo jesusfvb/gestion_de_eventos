@@ -13,4 +13,6 @@ public interface UsuarioS {
 
     public void salvar(String nombre,String apellido,String usuario,Integer carnetIdentidad);
 
+    public void eliminar(Integer[] ids);
+
 }
