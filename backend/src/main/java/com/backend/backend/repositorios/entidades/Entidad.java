@@ -1,4 +1,4 @@
-package com.backend.backend.repositorio;
+package com.backend.backend.repositorios.entidades;
 
 import java.io.Serializable;
 import java.util.Objects;
