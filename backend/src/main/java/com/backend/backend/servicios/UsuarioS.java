@@ -2,6 +2,8 @@ package com.backend.backend.servicios;
 
 import java.util.List;
 
+import com.backend.backend.auxiliares.constantes.RolConst;
+import com.backend.backend.repositorios.entidades.Rol;
 import com.backend.backend.repositorios.entidades.Usuario;
 
 import org.springframework.stereotype.Service;
@@ -18,4 +20,10 @@ public interface UsuarioS {
     public void modificar(Integer id, String parametro, Object nuevoValor);
 
     public Usuario getPorId(Integer id);
+
+    public List<Rol> getLisRolesPorId(Integer id);
+
+    public void adjuntarRol(Integer id, RolConst rol);
+
+    public void removerRol(Integer id, RolConst rol);
 }

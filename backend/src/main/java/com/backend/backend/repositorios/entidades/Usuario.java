@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import com.backend.backend.auxiliares.constantes.RolConst;
 import com.backend.backend.auxiliares.respuestas.DetalleUsuario;
@@ -28,7 +28,7 @@ public class Usuario extends Entidad {
     @Column
     private Integer carnetIdentidad;
 
-    @ManyToMany
+    @OneToMany
     private List<Rol> roles;
 
     public Usuario() {

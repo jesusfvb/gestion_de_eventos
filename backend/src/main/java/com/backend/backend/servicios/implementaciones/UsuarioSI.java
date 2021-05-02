@@ -69,6 +69,25 @@ public class UsuarioSI implements UsuarioS {
         return repositorio.findById(id).get();
     }
 
+    @Override
+    public List<Rol> getLisRolesPorId(Integer id) {
+        return getPorId(id).getRoles();
+    }
+
+    @Override
+    public void adjuntarRol(Integer id, RolConst rol) {
+        Usuario pivote = getPorId(id);
+        pivote.getRoles().add(comprobar_anadir_Rol(rol));
+        repositorio.save(pivote);
+    }
+
+    @Override
+    public void removerRol(Integer id, RolConst rol) {
+        Usuario pivote = getPorId(id);
+        pivote.getRoles().removeIf(role -> role.getRol().equals(rol) == true);
+        repositorio.save(pivote);
+    }
+
     private Rol comprobar_anadir_Rol(RolConst rol) {
         Rol salida;
         if (repositorioRol.exists(Example.of(new Rol(rol)))) {
