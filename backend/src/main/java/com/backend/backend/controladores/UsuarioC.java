@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.backend.backend.auxiliares.respuestas.DetalleUsuario;
+import com.backend.backend.auxiliares.solicitudes.Modificar;
 import com.backend.backend.auxiliares.solicitudes.NuevoUsuario;
 import com.backend.backend.repositorios.entidades.Usuario;
 import com.backend.backend.servicios.UsuarioS;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,16 +40,22 @@ public class UsuarioC {
     }
 
     @PutMapping
-    public ResponseEntity<List<DetalleUsuario>> nuevo(@RequestBody NuevoUsuario usuario) {
+    public ResponseEntity<List<DetalleUsuario>> nuevo(@RequestBody(required = true) NuevoUsuario usuario) {
         servicios.salvar(usuario.getNombre(), usuario.getApellido(), usuario.getUsuario(),
                 usuario.getCarnetIdentidad());
-       return ResponseEntity.ok(convertir(servicios.listar()));
+        return ResponseEntity.ok(convertir(servicios.listar()));
     }
 
     @DeleteMapping
-    public ResponseEntity<List<DetalleUsuario>> eliminar(@RequestBody Integer[] ids) {
+    public ResponseEntity<List<DetalleUsuario>> eliminar(@RequestBody(required = true) Integer[] ids) {
         servicios.eliminar(ids);
-       return ResponseEntity.ok(convertir(servicios.listar()));
+        return ResponseEntity.ok(convertir(servicios.listar()));
+    }
+
+    @PostMapping
+    public ResponseEntity<List<DetalleUsuario>> modificar(@RequestBody(required = true) Modificar solicitud) {
+        servicios.modificar(solicitud.getId(), solicitud.getParametro(), solicitud.getNuevoValor());
+        return ResponseEntity.ok(convertir(servicios.listar()));
     }
 
     private List<DetalleUsuario> convertir(List<Usuario> lista) {

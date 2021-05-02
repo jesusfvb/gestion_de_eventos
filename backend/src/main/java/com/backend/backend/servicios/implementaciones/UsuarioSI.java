@@ -43,6 +43,28 @@ public class UsuarioSI implements UsuarioS {
     }
 
     @Override
+    public void modificar(Integer id, String parametro, Object nuevoValor) {
+        Usuario usuario = getPorId(id);
+        switch (parametro) {
+            case "nombre":
+                usuario.setNombre((String) nuevoValor);
+                break;
+            case "apellido":
+                usuario.setApellido((String) nuevoValor);
+                break;
+            case "usuario":
+                usuario.setUsuario((String) nuevoValor);
+                break;
+            case "contraseña":
+                usuario.setContrasenna((String) nuevoValor);
+                break;
+            case "carnetIdentidad":
+                usuario.setCarnetIdentidad((Integer) nuevoValor);
+                break;
+        }
+    }
+
+    @Override
     public Usuario getPorId(Integer id) {
         return repositorio.findById(id).get();
     }
