@@ -15,4 +15,5 @@ public interface UsuarioS {
 
     public void eliminar(Integer[] ids);
 
+    public Usuario getPorId(Integer id);
 }

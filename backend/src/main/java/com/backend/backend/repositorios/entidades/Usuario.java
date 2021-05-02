@@ -7,6 +7,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 
+import com.backend.backend.auxiliares.constantes.RolConst;
+import com.backend.backend.auxiliares.respuestas.DetalleUsuario;
+
 @Entity
 public class Usuario extends Entidad {
 
@@ -24,14 +27,13 @@ public class Usuario extends Entidad {
 
     @Column
     private Integer carnetIdentidad;
-    
+
     @ManyToMany
     private List<Rol> roles;
 
     public Usuario() {
-        this.roles= new LinkedList<>();
+        this.roles = new LinkedList<>();
     }
-
 
     public Usuario(String nombre, String apellido, String usuario, String contrasenna, Integer carnetIdentidad,
             List<Rol> roles) {
@@ -42,8 +44,6 @@ public class Usuario extends Entidad {
         this.carnetIdentidad = carnetIdentidad;
         this.roles = roles;
     }
-
-
 
     public String getNombre() {
         return nombre;
@@ -93,4 +93,11 @@ public class Usuario extends Entidad {
         this.roles = roles;
     }
 
+    public DetalleUsuario convertir() {
+        List<RolConst> pivote = new LinkedList<>();
+        roles.forEach(rol -> {
+            pivote.add(rol.getRol());
+        });
+        return new DetalleUsuario(super.getId(), nombre, apellido, usuario, carnetIdentidad, pivote);
+    }
 }

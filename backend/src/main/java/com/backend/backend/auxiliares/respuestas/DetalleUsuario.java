@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.backend.backend.auxiliares.constantes.RolConst;
 
-public class ListarUsuario {
+public class DetalleUsuario {
 
     private Integer id;
 
@@ -18,10 +18,10 @@ public class ListarUsuario {
 
     private List<RolConst> roles;
 
-    public ListarUsuario() {
+    public DetalleUsuario() {
     }
 
-    public ListarUsuario(Integer id, String nombre, String apellido, String usuario, Integer carnetIdentidad,
+    public DetalleUsuario(Integer id, String nombre, String apellido, String usuario, Integer carnetIdentidad,
             List<RolConst> roles) {
         this.id = id;
         this.nombre = nombre;

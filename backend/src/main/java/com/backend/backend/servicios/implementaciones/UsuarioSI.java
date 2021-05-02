@@ -37,9 +37,14 @@ public class UsuarioSI implements UsuarioS {
 
     @Override
     public void eliminar(Integer[] ids) {
-       for (Integer id : ids) {
-           repositorio.deleteById(id);
-       }
+        for (Integer id : ids) {
+            repositorio.deleteById(id);
+        }
+    }
+
+    @Override
+    public Usuario getPorId(Integer id) {
+        return repositorio.findById(id).get();
     }
 
     private Rol comprobar_anadir_Rol(RolConst rol) {
