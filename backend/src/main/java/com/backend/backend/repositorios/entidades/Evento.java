@@ -1,9 +1,11 @@
 package com.backend.backend.repositorios.entidades;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+
+import com.backend.backend.auxiliares.respuestas.ModEvento;
 
 @Entity
 public class Evento extends Entidad {
@@ -21,10 +23,10 @@ public class Evento extends Entidad {
     private String edicion;
 
     @Column
-    private Date inicio;
+    private LocalDate inicio;
 
     @Column
-    private Date fin;
+    private LocalDate fin;
 
     @Column
     private String convocatoria;
@@ -32,7 +34,7 @@ public class Evento extends Entidad {
     public Evento() {
     }
 
-    public Evento(String nombre, String area, String clasificacion, String edicion, Date inicio, Date fin,
+    public Evento(String nombre, String area, String clasificacion, String edicion, LocalDate inicio, LocalDate fin,
             String convocatoria) {
         this.nombre = nombre;
         this.area = area;
@@ -75,19 +77,20 @@ public class Evento extends Entidad {
         this.edicion = edicion;
     }
 
-    public Date getInicio() {
+
+    public LocalDate getInicio() {
         return inicio;
     }
 
-    public void setInicio(Date inicio) {
+    public void setInicio(LocalDate inicio) {
         this.inicio = inicio;
     }
 
-    public Date getFin() {
+    public LocalDate getFin() {
         return fin;
     }
 
-    public void setFin(Date fin) {
+    public void setFin(LocalDate fin) {
         this.fin = fin;
     }
 
@@ -99,5 +102,7 @@ public class Evento extends Entidad {
         this.convocatoria = convocatoria;
     }
 
-    
+    public ModEvento convertir() {
+        return new ModEvento(super.getId(), nombre, area, clasificacion, edicion, inicio.toString(), fin.toString());
+    }
 }

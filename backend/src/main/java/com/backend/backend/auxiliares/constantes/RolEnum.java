@@ -1,5 +1,5 @@
 package com.backend.backend.auxiliares.constantes;
 
-public enum RolConst {
+public enum RolEnum {
     USUARIO,SUPER_ADMINISTRADOR,ADMINISTRADOR
 }
