@@ -11,6 +11,7 @@ import com.backend.backend.servicios.EventoS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +35,12 @@ public class EventoC {
     public ResponseEntity<List<ModEvento>> salvar(@RequestBody(required = true) NuevoEvento solicitud) {
         servicios.salvar(solicitud.getNombre(), solicitud.getArea(), solicitud.getClasificacion(),
                 solicitud.getEdicion(), solicitud.getInicio(), solicitud.getFin());
+        return ResponseEntity.ok(convertir(servicios.listar()));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<List<ModEvento>> eliminar(@RequestBody(required = true) Integer[] ids) {
+        servicios.eliminar(ids);
         return ResponseEntity.ok(convertir(servicios.listar()));
     }
 

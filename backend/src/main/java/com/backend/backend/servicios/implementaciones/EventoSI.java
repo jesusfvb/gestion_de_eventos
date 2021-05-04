@@ -22,8 +22,15 @@ public class EventoSI implements EventoS {
     }
 
     @Override
-    public void salvar(String nombre, String area, String clasificacion, String edicion, LocalDate inicio, LocalDate fin) {
+    public void salvar(String nombre, String area, String clasificacion, String edicion, LocalDate inicio,
+            LocalDate fin) {
         repositorio.save(new Evento(nombre, area, clasificacion, edicion, inicio, fin, ""));
     }
 
+    @Override
+    public void eliminar(Integer[] ids) {
+        for (Integer id : ids) {
+            repositorio.deleteById(id);
+        }
+    }
 }
