@@ -7,8 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 
-import com.backend.backend.auxiliares.constantes.RolConst;
-import com.backend.backend.auxiliares.respuestas.DetalleUsuario;
+import com.backend.backend.auxiliares.constantes.RolEnum;
+import com.backend.backend.auxiliares.respuestas.ModUsuario;
 
 @Entity
 public class Usuario extends Entidad {
@@ -93,11 +93,11 @@ public class Usuario extends Entidad {
         this.roles = roles;
     }
 
-    public DetalleUsuario convertir() {
-        List<RolConst> pivote = new LinkedList<>();
+    public ModUsuario convertir() {
+        List<RolEnum> pivote = new LinkedList<>();
         roles.forEach(rol -> {
             pivote.add(rol.getRol());
         });
-        return new DetalleUsuario(super.getId(), nombre, apellido, usuario, carnetIdentidad, pivote);
+        return new ModUsuario(super.getId(), nombre, apellido, usuario, carnetIdentidad, pivote);
     }
 }

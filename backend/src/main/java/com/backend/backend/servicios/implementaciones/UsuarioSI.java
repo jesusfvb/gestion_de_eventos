@@ -3,7 +3,7 @@ package com.backend.backend.servicios.implementaciones;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.backend.backend.auxiliares.constantes.RolConst;
+import com.backend.backend.auxiliares.constantes.RolEnum;
 import com.backend.backend.repositorios.RolR;
 import com.backend.backend.repositorios.UsuarioR;
 import com.backend.backend.repositorios.entidades.Rol;
@@ -31,7 +31,7 @@ public class UsuarioSI implements UsuarioS {
     @Override
     public void salvar(String nombre, String apellido, String usuario, Integer carnetIdentidad) {
         List<Rol> roles = new LinkedList<>();
-        roles.add(comprobar_anadir_Rol(RolConst.USUARIO));
+        roles.add(comprobar_anadir_Rol(RolEnum.USUARIO));
         repositorio.save(new Usuario(nombre, apellido, usuario, usuario, carnetIdentidad, roles));
     }
 
@@ -75,20 +75,20 @@ public class UsuarioSI implements UsuarioS {
     }
 
     @Override
-    public void adjuntarRol(Integer id, RolConst rol) {
+    public void adjuntarRol(Integer id, RolEnum rol) {
         Usuario pivote = getPorId(id);
         pivote.getRoles().add(comprobar_anadir_Rol(rol));
         repositorio.save(pivote);
     }
 
     @Override
-    public void removerRol(Integer id, RolConst rol) {
+    public void removerRol(Integer id, RolEnum rol) {
         Usuario pivote = getPorId(id);
         pivote.getRoles().removeIf(role -> role.getRol().equals(rol) == true);
         repositorio.save(pivote);
     }
 
-    private Rol comprobar_anadir_Rol(RolConst rol) {
+    private Rol comprobar_anadir_Rol(RolEnum rol) {
         Rol salida;
         if (repositorioRol.exists(Example.of(new Rol(rol)))) {
             salida = repositorioRol.findOne(Example.of(new Rol(rol))).get();

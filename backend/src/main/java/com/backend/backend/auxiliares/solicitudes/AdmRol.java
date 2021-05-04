@@ -1,21 +1,21 @@
 package com.backend.backend.auxiliares.solicitudes;
 
-import com.backend.backend.auxiliares.constantes.RolConst;
+import com.backend.backend.auxiliares.constantes.RolEnum;
 
-public class AdmiRol {
+public class AdmRol {
 
     private Integer id;
 
-    private RolConst rol;
+    private RolEnum rol;
 
-    public AdmiRol() {
+    public AdmRol() {
     }
 
     public Integer getId() {
         return id;
     }
 
-    public RolConst getRol() {
+    public RolEnum getRol() {
         return rol;
     }
 }

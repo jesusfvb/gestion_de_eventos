@@ -2,7 +2,7 @@ package com.backend.backend.servicios;
 
 import java.util.List;
 
-import com.backend.backend.auxiliares.constantes.RolConst;
+import com.backend.backend.auxiliares.constantes.RolEnum;
 import com.backend.backend.repositorios.entidades.Rol;
 import com.backend.backend.repositorios.entidades.Usuario;
 
@@ -23,7 +23,7 @@ public interface UsuarioS {
 
     public List<Rol> getLisRolesPorId(Integer id);
 
-    public void adjuntarRol(Integer id, RolConst rol);
+    public void adjuntarRol(Integer id, RolEnum rol);
 
-    public void removerRol(Integer id, RolConst rol);
+    public void removerRol(Integer id, RolEnum rol);
 }

@@ -2,9 +2,9 @@ package com.backend.backend.auxiliares.respuestas;
 
 import java.util.List;
 
-import com.backend.backend.auxiliares.constantes.RolConst;
+import com.backend.backend.auxiliares.constantes.RolEnum;
 
-public class DetalleUsuario {
+public class ModUsuario {
 
     private Integer id;
 
@@ -16,13 +16,13 @@ public class DetalleUsuario {
 
     private Integer carnetIdentidad;
 
-    private List<RolConst> roles;
+    private List<RolEnum> roles;
 
-    public DetalleUsuario() {
+    public ModUsuario() {
     }
 
-    public DetalleUsuario(Integer id, String nombre, String apellido, String usuario, Integer carnetIdentidad,
-            List<RolConst> roles) {
+    public ModUsuario(Integer id, String nombre, String apellido, String usuario, Integer carnetIdentidad,
+            List<RolEnum> roles) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -51,7 +51,7 @@ public class DetalleUsuario {
         return usuario;
     }
 
-    public List<RolConst> getRoles() {
+    public List<RolEnum> getRoles() {
         return roles;
     }
 
