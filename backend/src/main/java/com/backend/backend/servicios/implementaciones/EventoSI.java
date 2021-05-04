@@ -22,6 +22,39 @@ public class EventoSI implements EventoS {
     }
 
     @Override
+    public Evento getPorId(Integer id) {
+        return repositorio.findById(id).get();
+    }
+
+    @Override
+    public void modificar(Integer id, String parametro, Object nuevoValor) {
+        Evento evento = getPorId(id);
+        switch (parametro) {
+            case "nombre":
+                evento.setNombre((String) nuevoValor);
+                break;
+            case "area":
+                evento.setArea((String) nuevoValor);
+                break;
+            case "clasificacion":
+                evento.setClasificacion((String) nuevoValor);
+                break;
+            case "edicion":
+                evento.setEdicion((String) nuevoValor);
+                break;
+            case "inicio":
+                evento.setInicio((LocalDate) nuevoValor);
+                break;
+            case "fin":
+                evento.setFin((LocalDate) nuevoValor);
+                break;
+            case "convocatoria":
+                evento.setConvocatoria((String) nuevoValor);
+                break;
+        }
+    }
+
+    @Override
     public void salvar(String nombre, String area, String clasificacion, String edicion, LocalDate inicio,
             LocalDate fin) {
         repositorio.save(new Evento(nombre, area, clasificacion, edicion, inicio, fin, ""));

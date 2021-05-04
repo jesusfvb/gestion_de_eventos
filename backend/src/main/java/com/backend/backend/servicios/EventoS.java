@@ -12,6 +12,10 @@ public interface EventoS {
 
     public List<Evento> listar();
 
+    public Evento getPorId(Integer id);
+
+    public void modificar(Integer id, String parametro, Object nuevoValor);
+    
     public void salvar(String nombre, String area, String clasificacion, String edicion, LocalDate inicio,
             LocalDate fin);
 
