@@ -15,9 +15,13 @@ public interface EventoS {
     public Evento getPorId(Integer id);
 
     public void modificar(Integer id, String parametro, Object nuevoValor);
-    
+
     public void salvar(String nombre, String area, String clasificacion, String edicion, LocalDate inicio,
             LocalDate fin);
 
     public void eliminar(Integer[] ids);
+
+    public void solicitar(String nombre, String area, String clasificacion);
+
+    public void aprobar(Integer id);
 }

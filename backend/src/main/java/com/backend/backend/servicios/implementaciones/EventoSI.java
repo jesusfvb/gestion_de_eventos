@@ -66,4 +66,16 @@ public class EventoSI implements EventoS {
             repositorio.deleteById(id);
         }
     }
+
+    @Override
+    public void solicitar(String nombre, String area, String clasificacion) {
+        repositorio.save(new Evento(nombre, area, clasificacion));
+    }
+
+    @Override
+    public void aprobar(Integer id) {
+        Evento e = getPorId(id);
+        e.setAprobacion(true);
+        repositorio.save(e);
+    }
 }

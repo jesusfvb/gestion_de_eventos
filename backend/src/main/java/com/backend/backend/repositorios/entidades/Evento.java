@@ -31,6 +31,9 @@ public class Evento extends Entidad {
     @Column
     private String convocatoria;
 
+    @Column
+    private Boolean aprobacion;
+
     public Evento() {
     }
 
@@ -43,6 +46,18 @@ public class Evento extends Entidad {
         this.inicio = inicio;
         this.fin = fin;
         this.convocatoria = convocatoria;
+        this.aprobacion = true;
+    }
+
+    public Evento(String nombre, String area, String clasificacion) {
+        this.nombre = nombre;
+        this.area = area;
+        this.clasificacion = clasificacion;
+        this.edicion = null;
+        this.inicio = null;
+        this.fin = null;
+        this.convocatoria = null;
+        this.aprobacion = false;
     }
 
     public String getNombre() {
@@ -77,7 +92,6 @@ public class Evento extends Entidad {
         this.edicion = edicion;
     }
 
-
     public LocalDate getInicio() {
         return inicio;
     }
@@ -102,7 +116,16 @@ public class Evento extends Entidad {
         this.convocatoria = convocatoria;
     }
 
+    public Boolean getAprobacion() {
+        return aprobacion;
+    }
+
+    public void setAprobacion(Boolean aprobacion) {
+        this.aprobacion = aprobacion;
+    }
+
     public ModEvento convertir() {
-        return new ModEvento(super.getId(), nombre, area, clasificacion, edicion, inicio.toString(), fin.toString());
+        return new ModEvento(super.getId(), nombre, area, clasificacion, edicion != null ? edicion : "",
+                inicio != null ? inicio.toString() : "", fin != null ? fin.toString() : "");
     }
 }

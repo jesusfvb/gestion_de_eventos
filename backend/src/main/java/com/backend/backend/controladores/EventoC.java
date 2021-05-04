@@ -6,6 +6,7 @@ import java.util.List;
 import com.backend.backend.auxiliares.respuestas.ModEvento;
 import com.backend.backend.auxiliares.solicitudes.Modificar;
 import com.backend.backend.auxiliares.solicitudes.NuevoEvento;
+import com.backend.backend.auxiliares.solicitudes.SolicitarEvento;
 import com.backend.backend.repositorios.entidades.Evento;
 import com.backend.backend.servicios.EventoS;
 
@@ -48,13 +49,25 @@ public class EventoC {
 
     @PostMapping
     public ResponseEntity<List<ModEvento>> modificar(@RequestBody(required = true) Modificar solicitud) {
-        servicios.modificar(solicitud.getId(),solicitud.getParametro(),solicitud.getNuevoValor());
+        servicios.modificar(solicitud.getId(), solicitud.getParametro(), solicitud.getNuevoValor());
         return ResponseEntity.ok(convertir(servicios.listar()));
     }
 
     @DeleteMapping
     public ResponseEntity<List<ModEvento>> eliminar(@RequestBody(required = true) Integer[] ids) {
         servicios.eliminar(ids);
+        return ResponseEntity.ok(convertir(servicios.listar()));
+    }
+
+    @PutMapping("/solicitar")
+    public ResponseEntity<List<ModEvento>> solicitar(@RequestBody(required = true) SolicitarEvento solicitud) {
+        servicios.solicitar(solicitud.getNombre(), solicitud.getArea(), solicitud.getClasificacion());
+        return ResponseEntity.ok(convertir(servicios.listar()));
+    }
+
+    @PostMapping("/aprobar/{id}")
+    public ResponseEntity<List<ModEvento>> aceptarSolicitud(@PathVariable(required = true) Integer id) {
+        
         return ResponseEntity.ok(convertir(servicios.listar()));
     }
 
