@@ -4,7 +4,11 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.backend.backend.auxiliares.respuestas.ModComision;
+import com.backend.backend.auxiliares.respuestas.ModUsuario;
 
 @Entity
 public class Comision extends Entidad {
@@ -18,7 +22,17 @@ public class Comision extends Entidad {
     @OneToMany
     private List<Usuario> comiteOrganizador;
 
+    @ManyToOne
+    private Evento evento;
+
     public Comision() {
+    }
+
+    public Comision(String nombre, String lineaTematica, List<Usuario> comiteOrganizador, Evento evento) {
+        this.nombre = nombre;
+        this.lineaTematica = lineaTematica;
+        this.comiteOrganizador = comiteOrganizador;
+        this.evento = evento;
     }
 
     public String getNombre() {
@@ -45,5 +59,19 @@ public class Comision extends Entidad {
         this.comiteOrganizador = comiteOrganizador;
     }
 
-    
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
+
+    public ModComision convertir() {
+        ModUsuario[] pivote = new ModUsuario[comiteOrganizador.size()];
+        for (int i = 0; i < pivote.length; i++) {
+            pivote[i] = comiteOrganizador.get(i).convertir();
+        }
+        return new ModComision(super.getId(), evento.convertir(), nombre, lineaTematica, pivote);
+    }
 }
