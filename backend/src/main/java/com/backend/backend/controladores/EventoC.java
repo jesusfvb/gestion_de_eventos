@@ -67,7 +67,7 @@ public class EventoC {
 
     @PostMapping("/aprobar/{id}")
     public ResponseEntity<List<ModEvento>> aceptarSolicitud(@PathVariable(required = true) Integer id) {
-        
+        servicios.aprobar(id);
         return ResponseEntity.ok(convertir(servicios.listar()));
     }
 
