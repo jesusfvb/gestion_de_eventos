@@ -1,5 +1,6 @@
 package com.backend.backend.repositorios.entidades;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -25,6 +26,9 @@ public class Comision extends Entidad {
     @ManyToOne
     private Evento evento;
 
+    @OneToMany
+    private List<Usuario> miembros;
+
     public Comision() {
     }
 
@@ -33,6 +37,7 @@ public class Comision extends Entidad {
         this.lineaTematica = lineaTematica;
         this.comiteOrganizador = comiteOrganizador;
         this.evento = evento;
+        this.miembros = new LinkedList<>();
     }
 
     public String getNombre() {
@@ -65,6 +70,14 @@ public class Comision extends Entidad {
 
     public void setEvento(Evento evento) {
         this.evento = evento;
+    }
+
+    public List<Usuario> getMiembros() {
+        return miembros;
+    }
+
+    public void setMiembros(List<Usuario> miembros) {
+        this.miembros = miembros;
     }
 
     public ModComision convertir() {

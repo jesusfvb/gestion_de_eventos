@@ -64,4 +64,23 @@ public class ComisionSI implements ComisionS {
             repositorio.deleteById(id);
         }
     }
+
+    @Override
+    public void agregarMiembro(Integer id, Integer idMiembro) {
+        Comision comision = getPorId(id);
+        comision.getMiembros().add(serviceUsuario.getPorId(id));
+        repositorio.save(comision);
+    }
+
+    @Override
+    public void eliminarMiembro(Integer id, Integer idMiembro) {
+        Comision comision = getPorId(id);
+        comision.getMiembros().removeIf((Usuario usuario) -> usuario.getId().equals(idMiembro));
+        repositorio.save(comision);
+    }
+
+    @Override
+    public List<Usuario> getMiembros(Integer id) {
+        return getPorId(id).getMiembros();
+    }
 }
