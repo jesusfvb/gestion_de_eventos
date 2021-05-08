@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.backend.backend.repositorios.entidades.Evento;
+import com.backend.backend.repositorios.entidades.SalaDePonencia;
 
 import org.springframework.stereotype.Service;
 
@@ -24,4 +25,8 @@ public interface EventoS {
     public void solicitar(String nombre, String area, String clasificacion);
 
     public void aprobar(Integer id);
+
+    public void agregarSalaDePonencia(Integer id, SalaDePonencia sala);
+
+    public void removerSalaDePonencia(Integer id, Integer idSala);
 }
