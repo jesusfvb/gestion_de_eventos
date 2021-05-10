@@ -14,7 +14,9 @@ public interface PonenciaS {
 
     public List<SalaDePonencia> listarSalaDePonencia(Integer id);
 
-    public List<Ponencia> listar(Integer id);
+    public List<Ponencia> listar();
+
+    public List<Ponencia> listarPorIdUsuario(Integer id);
 
     public List<Comentario> listarComentario(Integer id);
 
@@ -26,4 +28,5 @@ public interface PonenciaS {
 
     public void registrar(Integer idAutor, String nombre, File archivo, Integer[] idsCoautores);
 
+    public Integer votarPorPonencia(Integer id);
 }

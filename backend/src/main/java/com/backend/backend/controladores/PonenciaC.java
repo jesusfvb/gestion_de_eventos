@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,8 +35,13 @@ public class PonenciaC {
     @Autowired
     private PonenciaS servicios;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<List<ModPonencia>> listar(@PathVariable(required = true) Integer id) {
+    @GetMapping
+    public ResponseEntity<List<ModPonencia>> listar() {
+        return respuestaPonencia(null);
+    }
+
+    @GetMapping("/autor/{id}")
+    public ResponseEntity<List<ModPonencia>> listarPorIdUsuario(@PathVariable(required = true) Integer id) {
         return respuestaPonencia(id);
     }
 
@@ -71,9 +77,20 @@ public class PonenciaC {
         return respuestaSalasDePonencia(solicitud.getIdEvento());
     }
 
+    @PostMapping("/votar/{id}")
+    public ResponseEntity<Integer> votarPonencia(@PathVariable(required = true) Integer id) {
+        return ResponseEntity.ok(servicios.votarPorPonencia(id));
+    }
+
     private ResponseEntity<List<ModPonencia>> respuestaPonencia(Integer id) {
         List<ModPonencia> salida = new LinkedList<>();
-        for (Ponencia ponencia : servicios.listar(id)) {
+        List<Ponencia> pivote;
+        if (id == null) {
+            pivote = servicios.listar();
+        } else {
+            pivote = servicios.listarPorIdUsuario(id);
+        }
+        for (Ponencia ponencia : pivote) {
             salida.add(ponencia.convertir());
         }
         return ResponseEntity.ok(salida);

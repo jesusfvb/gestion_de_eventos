@@ -23,6 +23,9 @@ public class Ponencia extends Entidad {
     @Column
     private File archivo;
 
+    @Column
+    private Integer cantVotos;
+
     @ManyToMany
     private List<Usuario> coautores;
 
@@ -30,6 +33,7 @@ public class Ponencia extends Entidad {
     private List<Comentario> comentarios;
 
     public Ponencia() {
+        this.cantVotos = 0;
         this.comentarios = new LinkedList<>();
     }
 
@@ -38,6 +42,7 @@ public class Ponencia extends Entidad {
         this.nombre = nombre;
         this.archivo = archivo;
         this.coautores = coautores;
+        this.cantVotos = 0;
         this.comentarios = new LinkedList<>();
     }
 
@@ -81,8 +86,16 @@ public class Ponencia extends Entidad {
         this.comentarios = comentarios;
     }
 
+    public Integer getCantVotos() {
+        return cantVotos;
+    }
+
+    public void setCantVotos(Integer cantVotos) {
+        this.cantVotos = cantVotos;
+    }
+
     public ModPonencia convertir() {
-        return new ModPonencia(super.getId());
+        return new ModPonencia(super.getId(), nombre, autor.getNombre(), cantVotos);
     }
 
 }

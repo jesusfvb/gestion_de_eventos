@@ -16,7 +16,6 @@ import com.backend.backend.servicios.PonenciaS;
 import com.backend.backend.servicios.UsuarioS;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,8 +42,13 @@ public class PonenciaSI implements PonenciaS {
     }
 
     @Override
-    public List<Ponencia> listar(Integer id) {
-        return repositorio.findAll(Example.of(new Ponencia(servicioUsuario.getPorId(id), null, null, null)));
+    public List<Ponencia> listar() {
+        return repositorio.findAll();
+    }
+
+    @Override
+    public List<Ponencia> listarPorIdUsuario(Integer id) {
+        return repositorio.getPorIdAutor(id);
     }
 
     @Override
@@ -77,6 +81,14 @@ public class PonenciaSI implements PonenciaS {
             coautores.add(servicioUsuario.getPorId(id));
         }
         repositorio.save(new Ponencia(servicioUsuario.getPorId(idAutor), nombre, archivo, coautores));
+    }
+
+    @Override
+    public Integer votarPorPonencia(Integer id) {
+        Ponencia ponencia = getPorId(id);
+        ponencia.setCantVotos(ponencia.getCantVotos() + 1);
+        repositorio.save(ponencia);
+        return ponencia.getCantVotos();
     }
 
     private Ponencia getPorId(Integer id) {
