@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import com.backend.backend.auxiliares.respuestas.ModPonencia;
@@ -31,6 +32,9 @@ public class Ponencia extends Entidad {
 
     @ManyToMany
     private List<Comentario> comentarios;
+
+    @ManyToOne
+    private Usuario revisor;
 
     public Ponencia() {
         this.cantVotos = 0;
@@ -92,6 +96,14 @@ public class Ponencia extends Entidad {
 
     public void setCantVotos(Integer cantVotos) {
         this.cantVotos = cantVotos;
+    }
+
+    public Usuario getRevisor() {
+        return revisor;
+    }
+
+    public void setRevisor(Usuario revisor) {
+        this.revisor = revisor;
     }
 
     public ModPonencia convertir() {

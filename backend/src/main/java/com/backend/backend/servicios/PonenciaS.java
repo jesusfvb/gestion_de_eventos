@@ -18,6 +18,10 @@ public interface PonenciaS {
 
     public List<Ponencia> listarPorIdUsuario(Integer id);
 
+    public List<Ponencia> listarPorIdRevisor(Integer id);
+
+    public List<Ponencia> listarPorIdSalaDePonencia(Integer id);
+
     public List<Comentario> listarComentario(Integer id);
 
     public void nuevaSalaDePonencia(Integer id, String nombre);
@@ -27,6 +31,10 @@ public interface PonenciaS {
     public void comentar(Integer id, Integer idUsuario, String comentario);
 
     public void registrar(Integer idAutor, String nombre, File archivo, Integer[] idsCoautores);
+
+    public void ponerEnRevision(Integer id, Integer idMiembroComision);
+
+    public void aprobar(Integer idPonencia, Integer idSalaDePonencia);
 
     public Integer votarPorPonencia(Integer id);
 }

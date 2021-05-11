@@ -48,7 +48,17 @@ public class PonenciaSI implements PonenciaS {
 
     @Override
     public List<Ponencia> listarPorIdUsuario(Integer id) {
-        return repositorio.getPorIdAutor(id);
+        return repositorio.getAllPorIdAutor(id);
+    }
+
+    @Override
+    public List<Ponencia> listarPorIdRevisor(Integer id) {
+        return repositorio.getAllPorIdRevisor(id);
+    }
+
+    @Override
+    public List<Ponencia> listarPorIdSalaDePonencia(Integer id) {
+        return repositorioSala.findById(id).get().getPonencias();
     }
 
     @Override
@@ -81,6 +91,24 @@ public class PonenciaSI implements PonenciaS {
             coautores.add(servicioUsuario.getPorId(id));
         }
         repositorio.save(new Ponencia(servicioUsuario.getPorId(idAutor), nombre, archivo, coautores));
+    }
+
+    @Override
+    public void ponerEnRevision(Integer id, Integer idMiembroComision) {
+        Ponencia ponencia = getPorId(id);
+        ponencia.setRevisor(servicioUsuario.getPorId(idMiembroComision));
+        repositorio.save(ponencia);
+    }
+
+    @Override
+    public void aprobar(Integer idPonencia, Integer idSalaDePonencia) {
+
+        Ponencia ponencia = getPorId(idPonencia);
+        ponencia.setRevisor(null);
+        repositorio.save(ponencia);
+        SalaDePonencia sala = repositorioSala.findById(idSalaDePonencia).get();
+        sala.getPonencias().add(ponencia);
+        repositorioSala.save(sala);
     }
 
     @Override

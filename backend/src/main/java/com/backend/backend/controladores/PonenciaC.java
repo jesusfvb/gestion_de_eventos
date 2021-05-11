@@ -7,6 +7,8 @@ import com.backend.backend.auxiliares.respuestas.ModComentario;
 import com.backend.backend.auxiliares.respuestas.ModPonencia;
 import com.backend.backend.auxiliares.respuestas.ModSalaDePonencia;
 import com.backend.backend.auxiliares.solicitudes.AdmSalaDePonencia;
+import com.backend.backend.auxiliares.solicitudes.AdminRevision;
+import com.backend.backend.auxiliares.solicitudes.Aprobar;
 import com.backend.backend.auxiliares.solicitudes.NuevaPonencia;
 import com.backend.backend.auxiliares.solicitudes.NuevaSalaDePonencia;
 import com.backend.backend.auxiliares.solicitudes.NuevoComentario;
@@ -37,19 +39,19 @@ public class PonenciaC {
 
     @GetMapping
     public ResponseEntity<List<ModPonencia>> listar() {
-        return respuestaPonencia(null);
+        return respuestaPonencia(servicios.listar());
     }
 
     @GetMapping("/autor/{id}")
     public ResponseEntity<List<ModPonencia>> listarPorIdUsuario(@PathVariable(required = true) Integer id) {
-        return respuestaPonencia(id);
+        return respuestaPonencia(servicios.listarPorIdUsuario(id));
     }
 
     @PutMapping
     public ResponseEntity<List<ModPonencia>> registrar(@RequestBody(required = true) NuevaPonencia solicitud) {
         servicios.registrar(solicitud.getIdAutor(), solicitud.getNombre(), solicitud.getArchivo(),
                 solicitud.getIdsCoautores());
-        return respuestaPonencia(solicitud.getIdAutor());
+        return respuestaPonencia(servicios.listarPorIdUsuario(solicitud.getIdAutor()));
     }
 
     @PutMapping("/comentar")
@@ -82,15 +84,21 @@ public class PonenciaC {
         return ResponseEntity.ok(servicios.votarPorPonencia(id));
     }
 
-    private ResponseEntity<List<ModPonencia>> respuestaPonencia(Integer id) {
+    @PostMapping("/revisor")
+    public ResponseEntity<List<ModPonencia>> ponerEnRevision(@RequestBody(required = true) AdminRevision solicitud) {
+        servicios.ponerEnRevision(solicitud.getIdPonencia(), solicitud.getIdRevisor());
+        return respuestaPonencia( servicios.listarPorIdRevisor( solicitud.getIdRevisor()));
+    }
+
+    @PostMapping("/aprobar")
+    public ResponseEntity<List<ModPonencia>> aprobar(@RequestBody(required = true) Aprobar solicitud) {
+        servicios.aprobar(solicitud.getIdPonencia(), solicitud.getIdSalaDePonencia());
+        return respuestaPonencia(servicios.listarPorIdSalaDePonencia(solicitud.getIdSalaDePonencia()));
+    }
+
+    private ResponseEntity<List<ModPonencia>> respuestaPonencia(List<Ponencia> lista) {
         List<ModPonencia> salida = new LinkedList<>();
-        List<Ponencia> pivote;
-        if (id == null) {
-            pivote = servicios.listar();
-        } else {
-            pivote = servicios.listarPorIdUsuario(id);
-        }
-        for (Ponencia ponencia : pivote) {
+        for (Ponencia ponencia : lista) {
             salida.add(ponencia.convertir());
         }
         return ResponseEntity.ok(salida);
