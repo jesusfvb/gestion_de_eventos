@@ -1,9 +1,12 @@
 package com.backend.backend.repositorios.entidades;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import com.backend.backend.auxiliares.respuestas.ModEvento;
 
@@ -34,7 +37,11 @@ public class Evento extends Entidad {
     @Column
     private Boolean aprobacion;
 
+    @OneToMany
+    private List<SalaDePonencia> salasDePonencia;
+
     public Evento() {
+        this.salasDePonencia = new LinkedList<>();
     }
 
     public Evento(String nombre, String area, String clasificacion, String edicion, LocalDate inicio, LocalDate fin,
@@ -47,6 +54,7 @@ public class Evento extends Entidad {
         this.fin = fin;
         this.convocatoria = convocatoria;
         this.aprobacion = true;
+        this.salasDePonencia = new LinkedList<>();
     }
 
     public Evento(String nombre, String area, String clasificacion) {
@@ -58,6 +66,7 @@ public class Evento extends Entidad {
         this.fin = null;
         this.convocatoria = null;
         this.aprobacion = false;
+        this.salasDePonencia = new LinkedList<>();
     }
 
     public String getNombre() {
@@ -122,6 +131,14 @@ public class Evento extends Entidad {
 
     public void setAprobacion(Boolean aprobacion) {
         this.aprobacion = aprobacion;
+    }
+
+    public List<SalaDePonencia> getSalasDePonencia() {
+        return salasDePonencia;
+    }
+
+    public void setSalasDePonencia(List<SalaDePonencia> salasDePonencia) {
+        this.salasDePonencia = salasDePonencia;
     }
 
     public ModEvento convertir() {

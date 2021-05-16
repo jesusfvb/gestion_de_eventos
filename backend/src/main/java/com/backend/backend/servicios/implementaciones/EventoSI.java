@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.backend.backend.repositorios.EventoR;
 import com.backend.backend.repositorios.entidades.Evento;
+import com.backend.backend.repositorios.entidades.SalaDePonencia;
 import com.backend.backend.servicios.EventoS;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +78,18 @@ public class EventoSI implements EventoS {
         Evento e = getPorId(id);
         e.setAprobacion(true);
         repositorio.save(e);
+    }
+
+    @Override
+    public void agregarSalaDePonencia(Integer id, SalaDePonencia sala) {
+        Evento evento = getPorId(id);
+        evento.getSalasDePonencia().add(sala);
+        repositorio.save(evento);
+    }
+
+    @Override
+    public void removerSalaDePonencia(Integer id, Integer idSala) {
+        Evento evento = getPorId(id);
+        evento.getSalasDePonencia().removeIf((SalaDePonencia sala) -> sala.getId().equals(idSala));
     }
 }

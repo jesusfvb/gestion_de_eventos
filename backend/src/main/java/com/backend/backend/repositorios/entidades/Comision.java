@@ -30,6 +30,7 @@ public class Comision extends Entidad {
     private List<Usuario> miembros;
 
     public Comision() {
+        this.miembros = new LinkedList<>();
     }
 
     public Comision(String nombre, String lineaTematica, List<Usuario> comiteOrganizador, Evento evento) {
