@@ -5,10 +5,11 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
 
 import com.backend.backend.auxiliares.constantes.RolEnum;
-import com.backend.backend.auxiliares.respuestas.ModUsuario;
+import com.backend.backend.auxiliares.respuestas.UsuarioResp;
 
 @Entity
 public class Usuario extends Entidad {
@@ -26,23 +27,27 @@ public class Usuario extends Entidad {
     private String contrasenna;
 
     @Column
-    private Integer carnetIdentidad;
+    private long carnetIdentidad;
 
-    @OneToMany
+    @ManyToMany
     private List<Rol> roles;
+
+    @OneToOne
+    private Archivo foto;
 
     public Usuario() {
         this.roles = new LinkedList<>();
     }
 
-    public Usuario(String nombre, String apellido, String usuario, String contrasenna, Integer carnetIdentidad,
-            List<Rol> roles) {
+    public Usuario(String nombre, String apellido, String usuario, String contrasenna, long carnetIdentidad,
+            List<Rol> roles, Archivo foto) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.usuario = usuario;
         this.contrasenna = contrasenna;
         this.carnetIdentidad = carnetIdentidad;
         this.roles = roles;
+        this.foto = foto;
     }
 
     public String getNombre() {
@@ -77,11 +82,11 @@ public class Usuario extends Entidad {
         this.contrasenna = contrasenna;
     }
 
-    public Integer getCarnetIdentidad() {
+    public long getCarnetIdentidad() {
         return carnetIdentidad;
     }
 
-    public void setCarnetIdentidad(Integer carnetIdentidad) {
+    public void setCarnetIdentidad(long carnetIdentidad) {
         this.carnetIdentidad = carnetIdentidad;
     }
 
@@ -93,11 +98,21 @@ public class Usuario extends Entidad {
         this.roles = roles;
     }
 
-    public ModUsuario convertir() {
+    public Archivo getFoto() {
+        return foto;
+    }
+
+    public void setFoto(Archivo foto) {
+        this.foto = foto;
+    }
+
+    public UsuarioResp convertir() {
         List<RolEnum> pivote = new LinkedList<>();
         roles.forEach(rol -> {
             pivote.add(rol.getRol());
         });
-        return new ModUsuario(super.getId(), nombre, apellido, usuario, carnetIdentidad, pivote);
+
+        return new UsuarioResp(super.getId(), nombre, apellido, usuario, carnetIdentidad, pivote,
+                (foto == null ? null : foto.convertir()));
     }
 }

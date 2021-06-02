@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.backend.backend.auxiliares.constantes.RolEnum;
 
-public class ModUsuario {
+public class UsuarioResp {
 
     private Integer id;
 
@@ -14,21 +14,24 @@ public class ModUsuario {
 
     private String usuario;
 
-    private Integer carnetIdentidad;
+    private long carnetIdentidad;
+
+    private ArchivoResp foto;
 
     private List<RolEnum> roles;
 
-    public ModUsuario() {
+    public UsuarioResp() {
     }
 
-    public ModUsuario(Integer id, String nombre, String apellido, String usuario, Integer carnetIdentidad,
-            List<RolEnum> roles) {
+    public UsuarioResp(Integer id, String nombre, String apellido, String usuario, long carnetIdentidad,
+            List<RolEnum> roles, ArchivoResp foto) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
         this.usuario = usuario;
         this.carnetIdentidad = carnetIdentidad;
         this.roles = roles;
+        this.foto = foto;
     }
 
     public Integer getId() {
@@ -43,7 +46,7 @@ public class ModUsuario {
         return apellido;
     }
 
-    public Integer getCarnetIdentidad() {
+    public long getCarnetIdentidad() {
         return carnetIdentidad;
     }
 
@@ -53,6 +56,10 @@ public class ModUsuario {
 
     public List<RolEnum> getRoles() {
         return roles;
+    }
+
+    public ArchivoResp getFoto() {
+        return foto;
     }
 
 }

@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.backend.backend.auxiliares.respuestas.ModComision;
-import com.backend.backend.auxiliares.respuestas.ModUsuario;
+import com.backend.backend.auxiliares.respuestas.UsuarioResp;
 
 @Entity
 public class Comision extends Entidad {
@@ -82,7 +82,7 @@ public class Comision extends Entidad {
     }
 
     public ModComision convertir() {
-        ModUsuario[] pivote = new ModUsuario[comiteOrganizador.size()];
+        UsuarioResp[] pivote = new UsuarioResp[comiteOrganizador.size()];
         for (int i = 0; i < pivote.length; i++) {
             pivote[i] = comiteOrganizador.get(i).convertir();
         }

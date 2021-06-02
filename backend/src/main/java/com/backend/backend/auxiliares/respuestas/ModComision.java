@@ -10,13 +10,13 @@ public class ModComision {
 
     private String lineaTematica;
 
-    private ModUsuario[] comiteOrganizador;
+    private UsuarioResp[] comiteOrganizador;
 
     public ModComision() {
     }
 
     public ModComision(Integer id, ModEvento evento, String nombre, String lineaTematica,
-            ModUsuario[] comiteOrganizador) {
+            UsuarioResp[] comiteOrganizador) {
         this.id = id;
         this.evento = evento;
         this.nombre = nombre;
@@ -40,7 +40,7 @@ public class ModComision {
         return lineaTematica;
     }
 
-    public ModUsuario[] getComiteOrganizador() {
+    public UsuarioResp[] getComiteOrganizador() {
         return comiteOrganizador;
     }
 }

@@ -1,6 +1,6 @@
 package com.backend.backend.auxiliares.solicitudes;
 
-public class NuevoUsuario {
+public class UsuarioSoli {
 
     private String nombre;
 
@@ -8,9 +8,9 @@ public class NuevoUsuario {
 
     private String usuario;
 
-    private Integer carnetIdentidad;
+    private long carnetIdentidad;
 
-    public NuevoUsuario() {
+    public UsuarioSoli() {
     }
 
     public String getNombre() {
@@ -25,7 +25,7 @@ public class NuevoUsuario {
         return usuario;
     }
 
-    public Integer getCarnetIdentidad() {
+    public long getCarnetIdentidad() {
         return carnetIdentidad;
     }
 

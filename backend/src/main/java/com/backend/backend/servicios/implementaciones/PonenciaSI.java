@@ -1,19 +1,15 @@
 package com.backend.backend.servicios.implementaciones;
 
 import java.io.File;
-import java.util.LinkedList;
 import java.util.List;
 
-import com.backend.backend.repositorios.ComentarioR;
 import com.backend.backend.repositorios.PonenciaR;
 import com.backend.backend.repositorios.SalaDePonenciaR;
 import com.backend.backend.repositorios.entidades.Comentario;
 import com.backend.backend.repositorios.entidades.Ponencia;
 import com.backend.backend.repositorios.entidades.SalaDePonencia;
-import com.backend.backend.repositorios.entidades.Usuario;
 import com.backend.backend.servicios.EventoS;
 import com.backend.backend.servicios.PonenciaS;
-import com.backend.backend.servicios.UsuarioS;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,14 +23,14 @@ public class PonenciaSI implements PonenciaS {
     @Autowired
     private SalaDePonenciaR repositorioSala;
 
-    @Autowired
-    private ComentarioR repositorioComentario;
+    // @Autowired
+    // private ComentarioR repositorioComentario;
 
     @Autowired
     private EventoS servicioEvento;
 
-    @Autowired
-    private UsuarioS servicioUsuario;
+    // @Autowired
+    // private UsuarioS servicioUsuario;
 
     @Override
     public List<SalaDePonencia> listarSalaDePonencia(Integer id) {
@@ -79,24 +75,24 @@ public class PonenciaSI implements PonenciaS {
 
     @Override
     public void comentar(Integer id, Integer idUsuario, String comentario) {
-        Ponencia ponencia = getPorId(id);
-        ponencia.getComentarios()
-                .add(repositorioComentario.save(new Comentario(servicioUsuario.getPorId(idUsuario), comentario)));
+        // Ponencia ponencia = getPorId(id);
+        // ponencia.getComentarios()
+        //         .add(repositorioComentario.save(new Comentario(servicioUsuario.getPorId(idUsuario), comentario)));
     }
 
     @Override
     public void registrar(Integer idAutor, String nombre, File archivo, Integer[] idsCoautores) {
-        List<Usuario> coautores = new LinkedList<>();
-        for (Integer id : idsCoautores) {
-            coautores.add(servicioUsuario.getPorId(id));
-        }
-        repositorio.save(new Ponencia(servicioUsuario.getPorId(idAutor), nombre, archivo, coautores));
+        // List<Usuario> coautores = new LinkedList<>();
+        // for (Integer id : idsCoautores) {
+        //     coautores.add(servicioUsuario.getPorId(id));
+        // }
+        // repositorio.save(new Ponencia(servicioUsuario.getPorId(idAutor), nombre, archivo, coautores));
     }
 
     @Override
     public void ponerEnRevision(Integer id, Integer idMiembroComision) {
         Ponencia ponencia = getPorId(id);
-        ponencia.setRevisor(servicioUsuario.getPorId(idMiembroComision));
+        // ponencia.setRevisor(servicioUsuario.getPorId(idMiembroComision));
         repositorio.save(ponencia);
     }
 

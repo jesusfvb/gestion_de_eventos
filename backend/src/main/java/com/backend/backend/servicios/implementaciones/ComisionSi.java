@@ -8,7 +8,6 @@ import com.backend.backend.repositorios.entidades.Comision;
 import com.backend.backend.repositorios.entidades.Usuario;
 import com.backend.backend.servicios.ComisionS;
 import com.backend.backend.servicios.EventoS;
-import com.backend.backend.servicios.UsuarioS;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +21,8 @@ public class ComisionSI implements ComisionS {
     @Autowired
     private EventoS servicioEvento;
 
-    @Autowired
-    private UsuarioS serviceUsuario;
+    // @Autowired
+    // private UsuarioS serviceUsuario;
 
     @Override
     public List<Comision> listar() {
@@ -38,9 +37,9 @@ public class ComisionSI implements ComisionS {
     @Override
     public void salvar(Integer idEvento, String nombre, String lineTematica, Integer[] idsComiteOrganizador) {
         List<Usuario> comiteOrganizador = new LinkedList<>();
-        for (Integer id : idsComiteOrganizador) {
-            comiteOrganizador.add(serviceUsuario.getPorId(id));
-        }
+        // for (Integer id : idsComiteOrganizador) {
+            // comiteOrganizador.add(serviceUsuario.getPorId(id));
+        // }
         repositorio.save(new Comision(nombre, lineTematica, comiteOrganizador, servicioEvento.getPorId(idEvento)));
     }
 
@@ -68,7 +67,7 @@ public class ComisionSI implements ComisionS {
     @Override
     public void agregarMiembro(Integer id, Integer idMiembro) {
         Comision comision = getPorId(id);
-        comision.getMiembros().add(serviceUsuario.getPorId(id));
+        // comision.getMiembros().add(serviceUsuario.getPorId(id));
         repositorio.save(comision);
     }
 

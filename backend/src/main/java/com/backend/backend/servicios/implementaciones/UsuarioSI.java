@@ -3,16 +3,17 @@ package com.backend.backend.servicios.implementaciones;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.backend.backend.auxiliares.constantes.RolEnum;
-import com.backend.backend.repositorios.RolR;
+import com.backend.backend.auxiliares.respuestas.UsuarioResp;
+import com.backend.backend.auxiliares.solicitudes.UsuarioSoli;
 import com.backend.backend.repositorios.UsuarioR;
-import com.backend.backend.repositorios.entidades.Rol;
 import com.backend.backend.repositorios.entidades.Usuario;
+import com.backend.backend.servicios.ArchivoS;
+import com.backend.backend.servicios.RolS;
 import com.backend.backend.servicios.UsuarioS;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UsuarioSI implements UsuarioS {
@@ -21,46 +22,72 @@ public class UsuarioSI implements UsuarioS {
     private UsuarioR repositorio;
 
     @Autowired
-    private RolR repositorioRol;
+    private RolS serviciosRol;
+
+    @Autowired
+    private ArchivoS serviciosArchivo;
 
     @Override
-    public List<Usuario> listar() {
-        return repositorio.findAll();
+    public List<UsuarioResp> listarR() {
+        List<UsuarioResp> lista = new LinkedList<>();
+        repositorio.findAll().forEach(usuario -> {
+            lista.add(usuario.convertir());
+        });
+        return lista;
     }
 
     @Override
-    public void salvar(String nombre, String apellido, String usuario, Integer carnetIdentidad) {
-        List<Rol> roles = new LinkedList<>();
-        roles.add(comprobar_anadir_Rol(RolEnum.USUARIO));
-        repositorio.save(new Usuario(nombre, apellido, usuario, usuario, carnetIdentidad, roles));
+    public void salvar(UsuarioSoli usuario, MultipartFile foto) {
+        repositorio.save(new Usuario(usuario.getNombre(), usuario.getApellido(), usuario.getUsuario(), "",
+                usuario.getCarnetIdentidad(), serviciosRol.getRolesIniciales(), serviciosArchivo.save(foto)));
+
     }
 
     @Override
     public void eliminar(Integer[] ids) {
         for (Integer id : ids) {
+            Integer[] idFoto = { getPorId(id).getFoto().getId() };
             repositorio.deleteById(id);
+            serviciosArchivo.borrar(idFoto);
         }
     }
 
     @Override
-    public void modificar(Integer id, String parametro, Object nuevoValor) {
-        Usuario usuario = getPorId(id);
-        switch (parametro) {
-            case "nombre":
-                usuario.setNombre((String) nuevoValor);
-                break;
-            case "apellido":
-                usuario.setApellido((String) nuevoValor);
-                break;
-            case "usuario":
-                usuario.setUsuario((String) nuevoValor);
-                break;
-            case "contraseña":
-                usuario.setContrasenna((String) nuevoValor);
-                break;
-            case "carnetIdentidad":
-                usuario.setCarnetIdentidad((Integer) nuevoValor);
-                break;
+    public void modificar(Integer id, UsuarioSoli usuario, MultipartFile foto) {
+        boolean guardar = false;
+        Usuario pivote = getPorId(id);
+        if (pivote.getNombre().equals(usuario.getNombre()) == false) {
+            pivote.setNombre(usuario.getNombre());
+            if (!guardar) {
+                guardar = true;
+            }
+        }
+        if (pivote.getApellido().equals(usuario.getApellido()) == false) {
+            pivote.setApellido(usuario.getApellido());
+            if (!guardar) {
+                guardar = true;
+            }
+        }
+        if (pivote.getUsuario().equals(usuario.getUsuario()) == false) {
+            pivote.setUsuario(usuario.getUsuario());
+            if (!guardar) {
+                guardar = true;
+            }
+        }
+        if (pivote.getCarnetIdentidad() != usuario.getCarnetIdentidad()) {
+            pivote.setCarnetIdentidad(usuario.getCarnetIdentidad());
+            if (!guardar) {
+                guardar = true;
+            }
+        }
+        if (foto != null) {
+            pivote.setFoto(serviciosArchivo.modificar(pivote.getFoto().getId(), foto));
+            if (!guardar) {
+                guardar = true;
+            }
+        }
+        if (guardar) {
+            repositorio.save(pivote);
         }
     }
 
@@ -70,32 +97,37 @@ public class UsuarioSI implements UsuarioS {
     }
 
     @Override
-    public List<Rol> getLisRolesPorId(Integer id) {
-        return getPorId(id).getRoles();
+    public UsuarioResp getPorIdR(Integer id) {
+        return repositorio.findById(id).get().convertir();
     }
 
-    @Override
-    public void adjuntarRol(Integer id, RolEnum rol) {
-        Usuario pivote = getPorId(id);
-        pivote.getRoles().add(comprobar_anadir_Rol(rol));
-        repositorio.save(pivote);
-    }
+    // @Override
+    // public List<Rol> getLisRolesPorId(Integer id) {
+    // return getPorId(id).getRoles();
+    // }
 
-    @Override
-    public void removerRol(Integer id, RolEnum rol) {
-        Usuario pivote = getPorId(id);
-        pivote.getRoles().removeIf(role -> role.getRol().equals(rol) == true);
-        repositorio.save(pivote);
-    }
+    // @Override
+    // public void adjuntarRol(Integer id, RolEnum rol) {
+    // Usuario pivote = getPorId(id);
+    // pivote.getRoles().add(comprobar_anadir_Rol(rol));
+    // repositorio.save(pivote);
+    // }
 
-    private Rol comprobar_anadir_Rol(RolEnum rol) {
-        Rol salida;
-        if (repositorioRol.exists(Example.of(new Rol(rol)))) {
-            salida = repositorioRol.findOne(Example.of(new Rol(rol))).get();
-        } else {
-            salida = repositorioRol.save(new Rol(rol));
-        }
-        return salida;
-    }
+    // @Override
+    // public void removerRol(Integer id, RolEnum rol) {
+    // Usuario pivote = getPorId(id);
+    // pivote.getRoles().removeIf(role -> role.getRol().equals(rol) == true);
+    // repositorio.save(pivote);
+    // }
+
+    // private Rol comprobar_anadir_Rol(RolEnum rol) {
+    // Rol salida;
+    // if (repositorioRol.exists(Example.of(new Rol(rol)))) {
+    // salida = repositorioRol.findOne(Example.of(new Rol(rol))).get();
+    // } else {
+    // salida = repositorioRol.save(new Rol(rol));
+    // }
+    // return salida;
+    // }
 
 }

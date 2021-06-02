@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.backend.backend.auxiliares.respuestas.ModComision;
-import com.backend.backend.auxiliares.respuestas.ModUsuario;
+import com.backend.backend.auxiliares.respuestas.UsuarioResp;
 import com.backend.backend.auxiliares.solicitudes.AdmMiembro;
 import com.backend.backend.auxiliares.solicitudes.Modificar;
 import com.backend.backend.auxiliares.solicitudes.NuevaComision;
@@ -63,18 +63,18 @@ public class ComisionC {
     }
 
     @GetMapping("/miembros/{id}")
-    public ResponseEntity<List<ModUsuario>> getMiembros(@PathVariable(required = true) Integer id) {
+    public ResponseEntity<List<UsuarioResp>> getMiembros(@PathVariable(required = true) Integer id) {
         return respuestaMiembros(id);
     }
 
     @PutMapping("/miembros")
-    public ResponseEntity<List<ModUsuario>> agregarMiembro(@RequestBody(required = true) AdmMiembro solicitud) {
+    public ResponseEntity<List<UsuarioResp>> agregarMiembro(@RequestBody(required = true) AdmMiembro solicitud) {
         servicios.agregarMiembro(solicitud.getId(), solicitud.getIdMiembro());
         return respuestaMiembros(solicitud.getId());
     }
 
     @DeleteMapping("/miembros")
-    public ResponseEntity<List<ModUsuario>> removerMiembro(@RequestBody(required = true) AdmMiembro solicitud) {
+    public ResponseEntity<List<UsuarioResp>> removerMiembro(@RequestBody(required = true) AdmMiembro solicitud) {
         servicios.eliminarMiembro(solicitud.getId(), solicitud.getIdMiembro());
         return respuestaMiembros(solicitud.getId());
     }
@@ -87,8 +87,8 @@ public class ComisionC {
         return ResponseEntity.ok(salida);
     }
 
-    private ResponseEntity<List<ModUsuario>> respuestaMiembros(Integer id) {
-        List<ModUsuario> salida = new LinkedList<>();
+    private ResponseEntity<List<UsuarioResp>> respuestaMiembros(Integer id) {
+        List<UsuarioResp> salida = new LinkedList<>();
         for (Usuario usuario : servicios.getMiembros(id)) {
             salida.add(usuario.convertir());
         }
