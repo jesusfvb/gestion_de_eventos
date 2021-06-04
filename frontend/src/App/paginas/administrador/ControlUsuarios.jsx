@@ -15,9 +15,15 @@ import {
   Button,
   Checkbox,
   Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  FormControlLabel,
   IconButton,
   Paper,
+  RadioGroup,
   Slide,
+  Switch,
   Table,
   TableBody,
   TableCell,
@@ -33,6 +39,7 @@ import {
 } from "@material-ui/core";
 import { Sesion } from "../../App";
 import { useRef } from "react";
+import ControlPointDuplicateIcon from "@material-ui/icons/ControlPointDuplicate";
 
 const axios = require("axios").default;
 
@@ -158,7 +165,6 @@ function Tabla(props) {
     axios
       .get(sesion.server + "/usuario")
       .then((respuesta) => {
-        console.log(respuesta.data);
         setRows(respuesta.data);
       })
       .catch((error) => {
@@ -292,11 +298,14 @@ function Tabla(props) {
           {selected.length > 0 ? (
             <>
               {selected.length === 1 ? (
-                <Tooltip title="Modificar">
-                  <IconButton aria-label="delete" onClick={handleClickUpdate}>
-                    <UpdateIcon />
-                  </IconButton>
-                </Tooltip>
+                <>
+                  <Rol setSelected={setSelected} selected={selected} />
+                  <Tooltip title="Modificar">
+                    <IconButton aria-label="delete" onClick={handleClickUpdate}>
+                      <UpdateIcon />
+                    </IconButton>
+                  </Tooltip>
+                </>
               ) : null}
               <Tooltip title="Borrar">
                 <IconButton aria-label="delete" onClick={handleClickDelete}>
@@ -626,5 +635,122 @@ function Formulario(props) {
         </form>
       </Dialog>
     </div>
+  );
+}
+
+const useStylesRol = makeStyles((theme) => ({
+  paper: {
+    width: "100%",
+    maxHeight: 450,
+    marginTop: "10vh",
+  },
+}));
+
+function Rol(props) {
+  const classes = useStylesRol();
+  const [roles, setRoles] = useState([]);
+  const [open, setOpen] = React.useState(false);
+  const groupRef = React.useRef(null);
+  const options = ["ADMINISTRADOR"];
+  const sesion = useContext(Sesion);
+
+  const cargarRoles = () => {
+    if (open && props.selected.length) {
+      axios
+        .get(sesion.server + "/rol/" + props.selected[0])
+        .then((respuesta) => {
+          setRoles(respuesta.data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
+  useEffect(cargarRoles, [open]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (enviar) => {
+    if (enviar) {
+      axios
+        .put(sesion.server + "/rol", { id: props.selected[0], roles: roles })
+        .then((respuesta) => {
+          setOpen(false);
+          props.setSelected([]);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      setOpen(false);
+      props.setSelected([]);
+    }
+  };
+
+  const handleEntering = () => {
+    if (groupRef.current != null) {
+      groupRef.current.focus();
+    }
+  };
+
+  const handleChangeSwitch = (opcion, e) => {
+    e.preventDefault();
+    if (roles.includes(opcion)) {
+      roles.splice(roles.indexOf(opcion), 1);
+    } else {
+      roles.push(opcion);
+    }
+    setRoles([...roles]);
+  };
+  return (
+    <>
+      <Tooltip title="Roles">
+        <IconButton aria-label="Roles" onClick={handleClickOpen}>
+          <ControlPointDuplicateIcon />
+        </IconButton>
+      </Tooltip>
+      <Dialog
+        disableBackdropClick
+        disableEscapeKeyDown
+        maxWidth="xs"
+        onEntering={handleEntering}
+        aria-labelledby="confirmation-dialog-title"
+        open={open}
+        className={classes.paper}
+      >
+        <DialogTitle id="confirmation-dialog-title">Roles</DialogTitle>
+        <DialogContent dividers>
+          <RadioGroup ref={groupRef} aria-label="ringtone" name="ringtone">
+            {options.map((option) => (
+              <FormControlLabel
+                value={option}
+                key={option}
+                control={
+                  <Switch
+                    checked={roles.includes(option)}
+                    onClick={handleChangeSwitch.bind(this, option)}
+                  />
+                }
+                label={option}
+              />
+            ))}
+          </RadioGroup>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            autoFocus
+            onClick={handleClose.bind(this, false)}
+            color="primary"
+          >
+            Cancel
+          </Button>
+          <Button onClick={handleClose.bind(this, true)} color="primary">
+            Ok
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 }

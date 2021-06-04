@@ -1,12 +1,10 @@
 package com.backend.backend.auxiliares.solicitudes;
 
-import com.backend.backend.auxiliares.constantes.RolEnum;
-
 public class AdmRol {
 
     private Integer id;
 
-    private RolEnum rol;
+    private String[] roles;
 
     public AdmRol() {
     }
@@ -15,7 +13,7 @@ public class AdmRol {
         return id;
     }
 
-    public RolEnum getRol() {
-        return rol;
+    public String[] getRoles() {
+        return roles;
     }
 }

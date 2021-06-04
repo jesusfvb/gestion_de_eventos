@@ -44,6 +44,12 @@ public class UsuarioSI implements UsuarioS {
     }
 
     @Override
+    public boolean salvar(Usuario usuario) {
+        repositorio.save(usuario);
+        return true;
+    }
+
+    @Override
     public void eliminar(Integer[] ids) {
         for (Integer id : ids) {
             Integer[] idFoto = { getPorId(id).getFoto().getId() };
@@ -100,34 +106,5 @@ public class UsuarioSI implements UsuarioS {
     public UsuarioResp getPorIdR(Integer id) {
         return repositorio.findById(id).get().convertir();
     }
-
-    // @Override
-    // public List<Rol> getLisRolesPorId(Integer id) {
-    // return getPorId(id).getRoles();
-    // }
-
-    // @Override
-    // public void adjuntarRol(Integer id, RolEnum rol) {
-    // Usuario pivote = getPorId(id);
-    // pivote.getRoles().add(comprobar_anadir_Rol(rol));
-    // repositorio.save(pivote);
-    // }
-
-    // @Override
-    // public void removerRol(Integer id, RolEnum rol) {
-    // Usuario pivote = getPorId(id);
-    // pivote.getRoles().removeIf(role -> role.getRol().equals(rol) == true);
-    // repositorio.save(pivote);
-    // }
-
-    // private Rol comprobar_anadir_Rol(RolEnum rol) {
-    // Rol salida;
-    // if (repositorioRol.exists(Example.of(new Rol(rol)))) {
-    // salida = repositorioRol.findOne(Example.of(new Rol(rol))).get();
-    // } else {
-    // salida = repositorioRol.save(new Rol(rol));
-    // }
-    // return salida;
-    // }
 
 }
