@@ -16,6 +16,8 @@ public interface UsuarioS {
 
     public void salvar(UsuarioSoli usuario, MultipartFile foto);
 
+    public boolean salvar(Usuario usuario);
+
     public void eliminar(Integer[] ids);
 
     public void modificar(Integer id, UsuarioSoli usuario, MultipartFile foto);
@@ -23,12 +25,5 @@ public interface UsuarioS {
     public Usuario getPorId(Integer id);
 
     public UsuarioResp getPorIdR(Integer id);
-
-    // // Cambiar de servicio
-    // public List<Rol> getLisRolesPorId(Integer id);
-
-    // public void adjuntarRol(Integer id, RolEnum rol);
-
-    // public void removerRol(Integer id, RolEnum rol);
 
 }

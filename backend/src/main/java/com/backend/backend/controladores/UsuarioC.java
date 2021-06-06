@@ -62,26 +62,6 @@ public class UsuarioC {
         return ResponseEntity.ok(servicios.listarR());
     }
 
-    // @GetMapping("rol/{id}")
-    // public ResponseEntity<List<RolEnum>> listarRoles(@PathVariable(required =
-    // true) Integer id) {
-    // return ResponseEntity.ok(convertirRoles(servicios.getLisRolesPorId(id)));
-    // }
-
-    // @PostMapping("/rol")
-    // public ResponseEntity<List<RolEnum>> agregarRol(@RequestBody(required = true)
-    // AdmRol solicitud) {
-    // servicios.adjuntarRol(solicitud.getId(), solicitud.getRol());
-    // return
-    // ResponseEntity.ok(convertirRoles(servicios.getLisRolesPorId(solicitud.getId())));
-    // }
-
-    // @DeleteMapping("rol")
-    // public ResponseEntity<List<RolEnum>> removerRol(@RequestBody(required = true)
-    // AdmRol solicitud) {
-    // servicios.removerRol(solicitud.getId(), solicitud.getRol());
-    // return
-    // ResponseEntity.ok(convertirRoles(servicios.getLisRolesPorId(solicitud.getId())));
-    // }
+    
 
 }
