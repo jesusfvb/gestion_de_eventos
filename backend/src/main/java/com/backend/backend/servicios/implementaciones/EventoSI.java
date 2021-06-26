@@ -3,6 +3,7 @@ package com.backend.backend.servicios.implementaciones;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.backend.backend.auxiliares.respuestas.ModEvento;
 import com.backend.backend.repositorios.EventoR;
 import com.backend.backend.repositorios.entidades.Evento;
 import com.backend.backend.repositorios.entidades.SalaDePonencia;
@@ -20,6 +21,11 @@ public class EventoSI implements EventoS {
     @Override
     public List<Evento> listar() {
         return repositorio.findAll();
+    }
+
+    @Override
+    public List<ModEvento> listarR() {
+        return null;
     }
 
     @Override

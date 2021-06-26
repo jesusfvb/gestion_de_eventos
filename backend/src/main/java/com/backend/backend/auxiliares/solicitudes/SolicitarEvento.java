@@ -11,6 +11,12 @@ public class SolicitarEvento {
     public SolicitarEvento() {
     }
 
+    public SolicitarEvento(String nombre, String clasificacion, String area) {
+        this.nombre = nombre;
+        this.clasificacion = clasificacion;
+        this.area = area;
+    }
+
     public String getNombre() {
         return nombre;
     }
