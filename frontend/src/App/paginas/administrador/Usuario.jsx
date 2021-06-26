@@ -43,7 +43,7 @@ import ControlPointDuplicateIcon from "@material-ui/icons/ControlPointDuplicate"
 
 const axios = require("axios").default;
 
-export default function ControlUsuario() {
+export default function Usuario() {
   const [open, setOpen] = React.useState(false);
   const [update, setUpdate] = useState(null);
 

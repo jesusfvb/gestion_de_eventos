@@ -3,6 +3,7 @@ package com.backend.backend.servicios;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.backend.backend.auxiliares.respuestas.ModEvento;
 import com.backend.backend.repositorios.entidades.Evento;
 import com.backend.backend.repositorios.entidades.SalaDePonencia;
 
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 public interface EventoS {
 
     public List<Evento> listar();
+
+    public List<ModEvento> listarR();
 
     public Evento getPorId(Integer id);
 
