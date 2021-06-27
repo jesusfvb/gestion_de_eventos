@@ -677,8 +677,11 @@ function Rol(props) {
 
   const handleClose = (enviar) => {
     if (enviar) {
+      let body = new FormData();
+      body.append("id", props.selected[0]);
+      body.append("roles", roles);
       axios
-        .put(sesion.server + "/rol", { id: props.selected[0], roles: roles })
+        .put(sesion.server + "/rol", body)
         .then((respuesta) => {
           setOpen(false);
           props.setSelected([]);

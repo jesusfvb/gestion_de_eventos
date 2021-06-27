@@ -3,7 +3,6 @@ package com.backend.backend.controladores;
 import java.util.List;
 
 import com.backend.backend.auxiliares.constantes.RolEnum;
-import com.backend.backend.auxiliares.solicitudes.AdmRol;
 import com.backend.backend.servicios.RolS;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -30,8 +29,7 @@ public class RolC {
     }
 
     @PutMapping
-    public ResponseEntity<Boolean> gestionRol(@RequestBody(required = true) AdmRol solicitud) {
-        return ResponseEntity.ok(servicios.gestionRol(solicitud));
+    public ResponseEntity<Boolean> gestionRol(@RequestParam Integer id, @RequestParam String[] roles) {
+        return ResponseEntity.ok(servicios.gestionRol(id, roles));
     }
-
 }

@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.backend.backend.auxiliares.constantes.RolEnum;
-import com.backend.backend.auxiliares.solicitudes.AdmRol;
 import com.backend.backend.repositorios.RolR;
 import com.backend.backend.repositorios.entidades.Rol;
 import com.backend.backend.repositorios.entidades.Usuario;
@@ -41,17 +40,17 @@ public class RolSI implements RolS {
     }
 
     @Override
-    public boolean gestionRol(AdmRol admRol) {
-        Usuario usuario = servicioUsuario.getPorId(admRol.getId());
-        for (String rol : admRol.getRoles()) {
+    public boolean gestionRol(Integer id, String[] roles) {
+        Usuario usuario = servicioUsuario.getPorId(id);
+        for (String rol : roles) {
             if (!existeEnListUsuario(usuario.getRoles(), rol)) {
                 usuario.getRoles().add(comprobarSalvar(rol));
             }
         }
-        if (admRol.getRoles().length < usuario.getRoles().size()) {
+        if (roles.length < usuario.getRoles().size()) {
             int contador = 0;
             while (contador < usuario.getRoles().size()) {
-                if (!existeEnArregloAdminRol(admRol.getRoles(), usuario.getRoles().get(contador))) {
+                if (!existeEnArregloAdminRol(roles, usuario.getRoles().get(contador))) {
                     usuario.getRoles().remove(contador);
                 } else {
                     contador++;
