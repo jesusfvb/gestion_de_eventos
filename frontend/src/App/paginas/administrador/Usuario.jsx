@@ -113,6 +113,11 @@ const useStylesTabla = makeStyles((theme) => ({
   titleToolbar: {
     flex: "1 1 100%",
   },
+  tableCell: {
+    padding: "14px",
+    paddingTop: "10px",
+    paddingBottom: "10px",
+  },
   avatar: {
     "&:hover": {
       transform: "scale(3)",
@@ -140,23 +145,23 @@ function Tabla(props) {
     {
       id: "nombre",
       numeric: false,
-      disablePadding: true,
+      disablePadding: false,
       label: "Nombre(s)",
     },
     {
       id: "apellido",
       numeric: false,
-      disablePadding: true,
+      disablePadding: false,
       label: "Apellido(s)",
     },
-    { id: "usuario", numeric: false, disablePadding: true, label: "Usuario" },
+    { id: "usuario", numeric: false, disablePadding: false, label: "Usuario" },
     {
       id: "carnetIdentidad",
       numeric: false,
-      disablePadding: true,
+      disablePadding: false,
       label: "C.I.",
     },
-    { id: "roles", numeric: false, disablePadding: true, label: "Rol(es)" },
+    { id: "roles", numeric: false, disablePadding: false, label: "Rol(es)" },
   ];
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
@@ -356,6 +361,9 @@ function Tabla(props) {
                     align={headCell.numeric ? "right" : "left"}
                     padding={headCell.disablePadding ? "none" : "default"}
                     sortDirection={orderBy === headCell.id ? order : false}
+                    className={
+                      headCell.disablePadding ? null : classes.tableCell
+                    }
                   >
                     <TableSortLabel
                       active={orderBy === headCell.id}
@@ -503,15 +511,10 @@ function Formulario(props) {
       .getElementsByTagName("input");
 
     const data = new FormData();
-    data.append(
-      "usuario",
-      JSON.stringify({
-        nombre: inputs.nombre.value,
-        apellido: inputs.apellido.value,
-        usuario: inputs.usuario.value,
-        carnetIdentidad: Number.parseInt(inputs.ci.value),
-      })
-    );
+    data.append("nombre", inputs.nombre.value);
+    data.append("apellido", inputs.apellido.value);
+    data.append("usuario", inputs.usuario.value);
+    data.append("carnetIdentidad", inputs.ci.value);
 
     if (inputs.foto.files.length !== 0) {
       data.append("foto", inputs.foto.files[0], "");

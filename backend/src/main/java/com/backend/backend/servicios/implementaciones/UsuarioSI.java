@@ -4,7 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.backend.backend.auxiliares.respuestas.UsuarioResp;
-import com.backend.backend.auxiliares.solicitudes.UsuarioSoli;
 import com.backend.backend.repositorios.UsuarioR;
 import com.backend.backend.repositorios.entidades.Usuario;
 import com.backend.backend.servicios.ArchivoS;
@@ -37,9 +36,9 @@ public class UsuarioSI implements UsuarioS {
     }
 
     @Override
-    public void salvar(UsuarioSoli usuario, MultipartFile foto) {
-        repositorio.save(new Usuario(usuario.getNombre(), usuario.getApellido(), usuario.getUsuario(), "",
-                usuario.getCarnetIdentidad(), serviciosRol.getRolesIniciales(), serviciosArchivo.save(foto)));
+    public void salvar(String nombre, String apellido, String usuario, long carnetIdentidad, MultipartFile foto) {
+        repositorio.save(new Usuario(nombre, apellido, usuario, "", carnetIdentidad, serviciosRol.getRolesIniciales(),
+                serviciosArchivo.save(foto)));
 
     }
 
@@ -59,29 +58,30 @@ public class UsuarioSI implements UsuarioS {
     }
 
     @Override
-    public void modificar(Integer id, UsuarioSoli usuario, MultipartFile foto) {
+    public void modificar(Integer id, String nombre, String apellido, String usuario, long carnetIdentidad,
+            MultipartFile foto) {
         boolean guardar = false;
         Usuario pivote = getPorId(id);
-        if (pivote.getNombre().equals(usuario.getNombre()) == false) {
-            pivote.setNombre(usuario.getNombre());
+        if (pivote.getNombre().equals(nombre) == false) {
+            pivote.setNombre(nombre);
             if (!guardar) {
                 guardar = true;
             }
         }
-        if (pivote.getApellido().equals(usuario.getApellido()) == false) {
-            pivote.setApellido(usuario.getApellido());
+        if (pivote.getApellido().equals(apellido) == false) {
+            pivote.setApellido(apellido);
             if (!guardar) {
                 guardar = true;
             }
         }
-        if (pivote.getUsuario().equals(usuario.getUsuario()) == false) {
-            pivote.setUsuario(usuario.getUsuario());
+        if (pivote.getUsuario().equals(usuario) == false) {
+            pivote.setUsuario(usuario);
             if (!guardar) {
                 guardar = true;
             }
         }
-        if (pivote.getCarnetIdentidad() != usuario.getCarnetIdentidad()) {
-            pivote.setCarnetIdentidad(usuario.getCarnetIdentidad());
+        if (pivote.getCarnetIdentidad() != carnetIdentidad) {
+            pivote.setCarnetIdentidad(carnetIdentidad);
             if (!guardar) {
                 guardar = true;
             }

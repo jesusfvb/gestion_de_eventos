@@ -1,6 +1,7 @@
 package com.backend.backend.servicios.implementaciones;
 
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.backend.backend.auxiliares.respuestas.ModEvento;
@@ -25,7 +26,11 @@ public class EventoSI implements EventoS {
 
     @Override
     public List<ModEvento> listarR() {
-        return null;
+        List<ModEvento> salida = new LinkedList<>();
+        repositorio.findAll().forEach(evento -> {
+            salida.add(evento.convertir());
+        });
+        return salida;
     }
 
     @Override
@@ -72,11 +77,6 @@ public class EventoSI implements EventoS {
         for (Integer id : ids) {
             repositorio.deleteById(id);
         }
-    }
-
-    @Override
-    public void solicitar(String nombre, String area, String clasificacion) {
-        repositorio.save(new Evento(nombre, area, clasificacion));
     }
 
     @Override

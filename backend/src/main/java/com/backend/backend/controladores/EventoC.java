@@ -1,12 +1,10 @@
 package com.backend.backend.controladores;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import com.backend.backend.auxiliares.respuestas.ModEvento;
 import com.backend.backend.auxiliares.solicitudes.Modificar;
 import com.backend.backend.auxiliares.solicitudes.NuevoEvento;
-import com.backend.backend.repositorios.entidades.Evento;
 import com.backend.backend.servicios.EventoS;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +29,7 @@ public class EventoC {
 
     @GetMapping
     public ResponseEntity<List<ModEvento>> listar() {
-        return ResponseEntity.ok(convertir(servicios.listar()));
+        return ResponseEntity.ok(servicios.listarR());
     }
 
     @GetMapping("/{id}")
@@ -43,30 +41,24 @@ public class EventoC {
     public ResponseEntity<List<ModEvento>> salvar(@RequestBody(required = true) NuevoEvento solicitud) {
         servicios.salvar(solicitud.getNombre(), solicitud.getArea(), solicitud.getClasificacion(),
                 solicitud.getEdicion(), solicitud.getInicio(), solicitud.getFin());
-        return ResponseEntity.ok(convertir(servicios.listar()));
+        return ResponseEntity.ok(servicios.listarR());
     }
 
     @PostMapping
     public ResponseEntity<List<ModEvento>> modificar(@RequestBody(required = true) Modificar solicitud) {
         servicios.modificar(solicitud.getId(), solicitud.getParametro(), solicitud.getNuevoValor());
-        return ResponseEntity.ok(convertir(servicios.listar()));
+        return ResponseEntity.ok(servicios.listarR());
     }
 
     @DeleteMapping
     public ResponseEntity<List<ModEvento>> eliminar(@RequestBody(required = true) Integer[] ids) {
         servicios.eliminar(ids);
-        return ResponseEntity.ok(convertir(servicios.listar()));
+        return ResponseEntity.ok(servicios.listarR());
     }
 
     @PostMapping("/aprobar/{id}")
     public ResponseEntity<List<ModEvento>> aceptarSolicitud(@PathVariable(required = true) Integer id) {
         servicios.aprobar(id);
-        return ResponseEntity.ok(convertir(servicios.listar()));
-    }
-
-    private List<ModEvento> convertir(List<Evento> lista) {
-        List<ModEvento> salida = new LinkedList<>();
-        lista.forEach(evento -> salida.add(evento.convertir()));
-        return salida;
+        return ResponseEntity.ok(servicios.listarR());
     }
 }

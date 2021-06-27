@@ -3,9 +3,7 @@ package com.backend.backend.controladores;
 import java.util.List;
 
 import com.backend.backend.auxiliares.respuestas.UsuarioResp;
-import com.backend.backend.auxiliares.solicitudes.UsuarioSoli;
 import com.backend.backend.servicios.UsuarioS;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,11 +37,10 @@ public class UsuarioC {
     }
 
     @PostMapping
-    public ResponseEntity<List<UsuarioResp>> nuevo(@RequestParam String usuario, @RequestParam MultipartFile foto)
-            throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        UsuarioSoli pivote = mapper.readValue(usuario, UsuarioSoli.class);
-        servicios.salvar(pivote, foto);
+    public ResponseEntity<List<UsuarioResp>> nuevo(@RequestParam String nombre, @RequestParam String apellido,
+            @RequestParam String usuario, @RequestParam long carnetIdentidad,
+            @RequestParam(required = false) MultipartFile foto) throws Exception {
+        servicios.salvar(nombre, apellido, usuario, carnetIdentidad, foto);
         return ResponseEntity.ok(servicios.listarR());
     }
 
@@ -54,14 +51,11 @@ public class UsuarioC {
     }
 
     @PutMapping
-    public ResponseEntity<List<UsuarioResp>> modificar(@RequestParam String usuario,
-            @RequestParam(required = false) MultipartFile foto, @RequestParam Integer id) throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        UsuarioSoli pivote = mapper.readValue(usuario, UsuarioSoli.class);
-        servicios.modificar(id, pivote, foto);
+    public ResponseEntity<List<UsuarioResp>> modificar(@RequestParam Integer id, @RequestParam String nombre,
+            @RequestParam String apellido, @RequestParam String usuario, @RequestParam long carnetIdentidad,
+            @RequestParam(required = false) MultipartFile foto) throws Exception {
+        servicios.modificar(id, nombre, apellido, usuario, carnetIdentidad, foto);
         return ResponseEntity.ok(servicios.listarR());
     }
-
-    
 
 }

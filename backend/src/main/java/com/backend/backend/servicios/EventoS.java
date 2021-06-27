@@ -25,8 +25,6 @@ public interface EventoS {
 
     public void eliminar(Integer[] ids);
 
-    public void solicitar(String nombre, String area, String clasificacion);
-
     public void aprobar(Integer id);
 
     public void agregarSalaDePonencia(Integer id, SalaDePonencia sala);

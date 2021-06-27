@@ -65,7 +65,7 @@ const useStylesTabla = makeStyles((theme) => ({
     width: 1,
   },
   tableCell: {
-    padding: "16px",
+    padding: "14px",
     paddingTop: "10px",
     paddingBottom: "10px",
   },
