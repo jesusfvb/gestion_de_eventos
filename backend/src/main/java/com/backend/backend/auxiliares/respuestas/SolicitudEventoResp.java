@@ -1,29 +1,32 @@
-package com.backend.backend.repositorios.entidades;
+package com.backend.backend.auxiliares.respuestas;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
+public class SolicitudEventoResp {
 
-import com.backend.backend.auxiliares.respuestas.SolicitudEventoResp;
+    private Integer id;
 
-@Entity
-public class SolicitudEvento extends Entidad {
-
-    @Column
     private String nombreEvento;
 
-    @Column
     private String clasificacion;
 
-    @Column
     private String area;
 
-    public SolicitudEvento() {
+    public SolicitudEventoResp() {
+
     }
 
-    public SolicitudEvento(String nombreEvento, String clasificacion, String area) {
+    public SolicitudEventoResp(Integer id, String nombreEvento, String clasificacion, String area) {
+        this.id = id;
         this.nombreEvento = nombreEvento;
         this.clasificacion = clasificacion;
         this.area = area;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getNombreEvento() {
@@ -50,7 +53,4 @@ public class SolicitudEvento extends Entidad {
         this.area = area;
     }
 
-    public SolicitudEventoResp convertir() {
-        return new SolicitudEventoResp(super.getId(), nombreEvento, clasificacion, area);
-    }
 }
