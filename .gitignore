@@ -1,4 +1,6 @@
 ### VS Code ###
 .vscode/
+
+.idea/
 frontend/debug.log
 /frontend/nbproject/private/
