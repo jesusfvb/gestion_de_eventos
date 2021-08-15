@@ -11,21 +11,45 @@ import java.util.List;
 public class MyUser extends MyEntity {
 
     @Column
+    private String name;
+
+    @Column
+    private String surname;
+
+    @Column
     private String username;
 
     @Column
     private String password;
 
-    @OneToMany
-    private List<MyRole> roles;
+    @Column
+    private Integer dni;
 
     public MyUser() {
     }
 
-    public MyUser(String username, String password, List<MyRole> roles) {
+    public MyUser(String name, String surname, String username, String password, Integer dni) {
+        this.name = name;
+        this.surname = surname;
         this.username = username;
         this.password = password;
-        this.roles = roles;
+        this.dni = dni;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getUsername() {
@@ -44,11 +68,12 @@ public class MyUser extends MyEntity {
         this.password = password;
     }
 
-    public List<MyRole> getRoles() {
-        return roles;
+    public Integer getDni() {
+        return dni;
     }
 
-    public void setRoles(List<MyRole> roles) {
-        this.roles = roles;
+    public void setDni(Integer dni) {
+        this.dni = dni;
     }
+
 }

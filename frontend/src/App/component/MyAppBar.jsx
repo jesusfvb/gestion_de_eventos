@@ -1,14 +1,15 @@
 import React from "react";
 import {
-    AppBar,
+    AppBar, Button,
     Grid,
     IconButton,
     makeStyles, Menu, MenuItem,
     Toolbar,
-    Typography
+    Typography,
 } from "@material-ui/core";
 import {Session} from "../App";
 import {AccountCircle} from "@material-ui/icons";
+import {Link} from "react-router-dom"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,6 +18,9 @@ const useStyles = makeStyles((theme) => ({
     title: {
         flexGrow: 1,
     },
+    links: {
+        flexGrow: 1
+    }
 }));
 
 export default function MyAppBar(props) {
@@ -42,6 +46,13 @@ export default function MyAppBar(props) {
                             <Typography variant="h6" className={classes.title}>
                                 Gestión de Eventos
                             </Typography>
+                            <div className={classes.links}>
+                                {
+                                    (session.roles.some(role => role.authority === "USER")) ?
+                                        <MenuAdministrator/>
+                                        : null
+                                }
+                            </div>
                             <div>
                                 <IconButton
                                     aria-label="account of current user"
@@ -79,4 +90,31 @@ export default function MyAppBar(props) {
             </Grid>
         </Grid>
     )
+}
+
+function MenuAdministrator() {
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    return (
+        <div>
+            <Button onClick={handleClick}>
+                Administrador
+            </Button>
+            <Menu
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+            >
+                <MenuItem onClick={handleClose}>
+                    <Link style={{textDecoration: "none"}} to="/administration/users">Administrar Usuarios</Link>
+                </MenuItem>
+            </Menu>
+        </div>
+    );
 }

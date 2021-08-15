@@ -22,16 +22,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function App() {
+    axios.defaults.baseURL = "http://localhost:8080";
     const classes = useStyles()
-    const host = "http://localhost:8080"
-    const [authenticated, setAuthenticated] = React.useState(null)
+    const [authenticated, setAuthenticated] = React.useState(undefined)
 
     const verifySession = () => {
-        const jwt = sessionStorage.getItem("jwt")
+        let jwt = sessionStorage.getItem("jwt")
         if (!(jwt === undefined || jwt === null) && decode(jwt).exp > new Date().getMilliseconds()) {
-            setAuthenticated(true)
+            axios.defaults.headers.common = {Accept: "application/json, text/plain, */*", Authorization: jwt}
+            setAuthenticated(jwt)
         } else {
-            setAuthenticated(false)
+            axios.defaults.headers.common = {Accept: "application/json, text/plain, */*"}
+            setAuthenticated(null)
         }
     }
     React.useEffect(verifySession, []);
@@ -42,7 +44,7 @@ export default function App() {
         body.append("username", even.target.username.value)
         body.append("password", even.target.password.value)
         axios
-            .post(host + "/user/logIn", body)
+            .post("/user/logIn", body)
             .then(response => {
                 sessionStorage.setItem("jwt", response.data)
                 verifySession()
@@ -56,29 +58,18 @@ export default function App() {
         verifySession()
     }
 
-    const getRoles = () => {
-        let jwt = sessionStorage.getItem("jwt")
-        if (jwt === undefined || jwt === null) {
-            return []
-        } else {
-            return decode(jwt).roles
-        }
-    }
 
-    const getUsername = () => {
-        let jwt = sessionStorage.getItem("jwt")
-        if (jwt === undefined || jwt === null) {
-            return null
-        } else {
-            return decode(jwt).sub
-        }
-    }
-
-    if (authenticated == null) {
+    if (authenticated === undefined) {
         return null;
-    } else if (authenticated) {
+    } else if (typeof authenticated === "string") {
+        const jwtDecode = decode(authenticated)
         return (
-            <Session.Provider value={{logOut: logOut, roles: getRoles(), username: getUsername()}}>
+            <Session.Provider
+                value={{
+                    logOut: logOut,
+                    username: jwtDecode.sub,
+                    roles: jwtDecode.roles,
+                }}>
                 <MyRute/>
             </Session.Provider>
         )
@@ -90,7 +81,7 @@ export default function App() {
                         <Grid container direction="column" justify="center" alignItems="center">
                             <Grid>
                                 <Typography variant="h5">
-                                    Gestion de Eventos
+                                    Gestión de Eventos
                                 </Typography>
                             </Grid>
                             <Grid>

@@ -15,9 +15,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private final String[] patterns = {
+            "/user/logIn",
+            "/",
+            "/swagger-ui/*",
+            "/v3/api-docs/*",
+            "/v3/*"
+    };
 
     @Autowired
     private MyUserDetailsService myUserDetailsService;
@@ -36,10 +45,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/user/logIn")
+                .antMatchers(patterns)
                 .permitAll()
-                .antMatchers( HttpMethod.GET,"/","/swagger-ui/index.html","/swagger-ui/favicon-16x16.png","/swagger-ui/favicon-32x32.png","/v3/api-docs","/v3/api-docs/swagger-config")
-                .permitAll()
+                .antMatchers(HttpMethod.OPTIONS)
+                .anonymous()
                 .anyRequest()
                 .authenticated()
                 .and()
