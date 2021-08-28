@@ -11,6 +11,8 @@ public interface RoleService {
 
     public List<MyRole> getByUsername(String username);
 
+    public List<MyRole> getByUserId(Integer id);
+
     public void addRoleUser(MyRole.Role role, MyUser user);
 
     public void removeAllRoleUserId(Integer id);

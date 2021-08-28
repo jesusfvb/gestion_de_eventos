@@ -1,5 +1,6 @@
 package com.backend.backend.controller.response;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class UserResponse {
@@ -16,13 +17,13 @@ public class UserResponse {
 
     private final List<String> roles;
 
-    public UserResponse(Integer id, String name, String surname, String username, Integer dni, List<String> roles) {
+    public UserResponse(Integer id, String name, String surname, String username, Integer dni) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.dni = dni;
-        this.roles = roles;
+        this.roles = new LinkedList<>();
     }
 
     public Integer getId() {

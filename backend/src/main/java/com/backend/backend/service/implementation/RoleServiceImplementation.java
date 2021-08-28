@@ -3,6 +3,7 @@ package com.backend.backend.service.implementation;
 import com.backend.backend.repository.RoleRepository;
 import com.backend.backend.repository.entity.MyRole;
 import com.backend.backend.repository.entity.MyUser;
+import com.backend.backend.service.ConvocatoriaService;
 import com.backend.backend.service.RoleService;
 import com.backend.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +20,30 @@ public class RoleServiceImplementation implements RoleService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ConvocatoriaService convocatoriaService;
+
     @Override
     public List<MyRole> getByUsername(String username) {
-        return roleRepository.findAllByUsername(username);
+        List<MyRole> roles = roleRepository.findAllByUsersUsername(username);
+        if (convocatoriaService.isConvocatoriaBoss(username)) {
+            roles.add(new MyRole(MyRole.Role.COORDINADOR));
+        }
+        return roles;
+    }
+
+    @Override
+    public List<MyRole> getByUserId(Integer id) {
+        List<MyRole> roles = roleRepository.findAllByUsersId(id);
+        if (convocatoriaService.isConvocatoriaBoss(id)) {
+            roles.add(new MyRole(MyRole.Role.COORDINADOR));
+        }
+        return roles;
     }
 
     @Override
     public void addRoleUser(MyRole.Role role, MyUser user) {
-        MyRole roleAux = roleRepository.findByRole(role);
+        MyRole roleAux = roleRepository.findByRol(role);
         if (roleAux == null) {
             roleAux = roleRepository.save(new MyRole(role));
         }
@@ -36,7 +53,11 @@ public class RoleServiceImplementation implements RoleService {
 
     @Override
     public void removeAllRoleUserId(Integer id) {
-        roleRepository.deleteRoleUserById(id);
+       List<MyRole> roleList = roleRepository.findAllByUsersId(id);
+        for(MyRole myRole:roleList){
+            myRole.getUsers().removeIf(myUser -> myUser.getId().equals(id));
+        }
+        roleRepository.saveAll(roleList);
     }
 
     @Override

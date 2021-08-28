@@ -1,6 +1,7 @@
 package com.backend.backend.controller;
 
 import com.backend.backend.controller.response.UserResponse;
+import com.backend.backend.repository.entity.MyRole;
 import com.backend.backend.service.RoleService;
 import com.backend.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,11 @@ public class UserController {
     private ResponseEntity<List<UserResponse>> list() {
         List<UserResponse> list = new LinkedList<>();
         userService.list().forEach(user -> {
-            List<String> roles = new LinkedList<>();
-            roleService.getByUsername(user.getUsername()).forEach(myRole -> roles.add(myRole.getRol().name()));
-            list.add(new UserResponse(user.getId(), user.getName(), user.getSurname(), user.getUsername(), user.getDni(), roles));
+            UserResponse userResponse = user.transform();
+            for (MyRole role: roleService.getByUserId(userResponse.getId())){
+                userResponse.getRoles().add(role.getRol().name());
+            }
+            list.add(userResponse);
         });
         return ResponseEntity.ok(list);
     }

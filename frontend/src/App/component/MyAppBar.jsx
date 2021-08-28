@@ -1,11 +1,11 @@
 import React from "react";
 import {
-    AppBar, Button,
+    AppBar, Button, ButtonGroup,
     Grid,
     IconButton,
     makeStyles, Menu, MenuItem,
     Toolbar,
-    Typography,
+    Typography, withStyles,
 } from "@material-ui/core";
 import {Session} from "../App";
 import {AccountCircle} from "@material-ui/icons";
@@ -18,8 +18,12 @@ const useStyles = makeStyles((theme) => ({
     title: {
         flexGrow: 1,
     },
-    links: {
+    linksContainer: {
         flexGrow: 1
+    },
+    links: {
+        textDecoration: "none",
+        color: "black"
     }
 }));
 
@@ -37,6 +41,7 @@ export default function MyAppBar(props) {
         setAnchorEl(null);
     };
 
+
     return (
         <Grid container direction="column">
             <Grid item>
@@ -46,12 +51,27 @@ export default function MyAppBar(props) {
                             <Typography variant="h6" className={classes.title}>
                                 Gestión de Eventos
                             </Typography>
-                            <div className={classes.links}>
-                                {
-                                    (session.roles.some(role => role.authority === "USER")) ?
-                                        <MenuAdministrator/>
-                                        : null
-                                }
+                            <div className={classes.linksContainer}>
+                                <ButtonGroup variant="text">
+                                    {
+                                        session.routeUsers.map((value, index) => {
+                                            if (!(value.name === null || value.name === undefined)) {
+                                                return (
+                                                    <Button key={"button-route-user-" + index}>
+                                                        <Link className={classes.links}
+                                                              to={value.path}>{value.name}</Link>
+                                                    </Button>
+                                                )
+                                            } else {
+                                                return null;
+                                            }
+                                        })
+                                    }
+                                    {
+                                        (session.roles.some(role => role.authority === "ADMINISTRATION")) ?
+                                            <MenuAdministrator/> : null
+                                    }
+                                </ButtonGroup>
                             </div>
                             <div>
                                 <IconButton
@@ -93,6 +113,8 @@ export default function MyAppBar(props) {
 }
 
 function MenuAdministrator() {
+    const session = React.useContext(Session)
+    const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState(null);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -100,21 +122,46 @@ function MenuAdministrator() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const StyledMenu = withStyles({
+        paper: {
+            border: '1px solid #d3d4d5',
+        },
+    })((props) => (
+        <Menu
+            elevation={0}
+            getContentAnchorEl={null}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+            }}
+            transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+            }}
+            {...props}
+        />
+    ));
+
     return (
         <div>
             <Button onClick={handleClick}>
-                Administrador
+                Administrar
             </Button>
-            <Menu
+            <StyledMenu
                 anchorEl={anchorEl}
-                keepMounted
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>
-                    <Link style={{textDecoration: "none"}} to="/administration/users">Administrar Usuarios</Link>
-                </MenuItem>
-            </Menu>
+                {
+                    session.routeAdmin.map((value, index) => (
+                        <MenuItem key={"route-button-admin-" + index}>
+                            <Link onClick={handleClose} className={classes.links}
+                                  to={"/administration" + value.path}>{value.name}</Link>
+                        </MenuItem>
+                    ))
+                }
+            </StyledMenu>
         </div>
     );
 }

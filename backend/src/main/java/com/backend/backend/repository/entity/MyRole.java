@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 public class MyRole extends MyEntity {
-    public enum Role {USER, ADMINISTRATION}
+    public enum Role {USER, ADMINISTRATION,COORDINADOR}
 
     @Column
     private Role rol;

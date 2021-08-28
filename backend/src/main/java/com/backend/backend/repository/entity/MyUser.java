@@ -1,9 +1,12 @@
 package com.backend.backend.repository.entity;
 
-import org.hibernate.annotations.ColumnTransformer;
-import org.hibernate.annotations.Columns;
+import com.backend.backend.controller.response.UserResponse;
+import com.backend.backend.service.RoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Transient;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -74,6 +77,10 @@ public class MyUser extends MyEntity {
 
     public void setDni(Integer dni) {
         this.dni = dni;
+    }
+
+    public UserResponse transform() {
+        return new UserResponse(super.getId(), this.name, this.surname, this.username, this.dni);
     }
 
 }
