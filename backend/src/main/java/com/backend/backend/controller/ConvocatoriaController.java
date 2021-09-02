@@ -1,10 +1,8 @@
 package com.backend.backend.controller;
 
 import com.backend.backend.controller.response.ConvocatoriaResponse;
-import com.backend.backend.controller.response.UserResponse;
 import com.backend.backend.repository.entity.MyRole;
 import com.backend.backend.service.ConvocatoriaService;
-import com.backend.backend.service.EventoService;
 import com.backend.backend.service.RoleService;
 import com.backend.backend.service.UserService;
 
