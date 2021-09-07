@@ -39,7 +39,21 @@ public class ConvocatoriaController {
         List<ConvocatoriaResponse> convocatoriaResponseList = new LinkedList<>();
         convocatoriaService.list().forEach(convocatoria -> {
             ConvocatoriaResponse convocatoriaResponse = convocatoria.transform();
-            for (MyRole role : roleService.getByUserId(convocatoriaResponse.getConvocatoriaBoss().getId())){
+            for (MyRole role : roleService.getByUserId(convocatoriaResponse.getConvocatoriaBoss().getId())) {
+                convocatoriaResponse.getConvocatoriaBoss().getRoles().add(role.getRol().name());
+            }
+            convocatoriaResponseList.add(convocatoriaResponse);
+        });
+        return ResponseEntity.ok(convocatoriaResponseList);
+    }
+
+
+    @GetMapping("/boss")
+    public ResponseEntity<List<ConvocatoriaResponse>> listByBossId(@RequestParam String username) {
+        List<ConvocatoriaResponse> convocatoriaResponseList = new LinkedList<>();
+        convocatoriaService.listByBossUsername(username).forEach(convocatoria -> {
+            ConvocatoriaResponse convocatoriaResponse = convocatoria.transform();
+            for (MyRole role : roleService.getByUserId(convocatoriaResponse.getConvocatoriaBoss().getId())) {
                 convocatoriaResponse.getConvocatoriaBoss().getRoles().add(role.getRol().name());
             }
             convocatoriaResponseList.add(convocatoriaResponse);

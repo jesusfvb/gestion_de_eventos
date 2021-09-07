@@ -1,14 +1,9 @@
 package com.backend.backend.repository.entity;
 
-import com.backend.backend.controller.response.UserResponse;
-import com.backend.backend.service.RoleService;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Transient;
-import java.util.LinkedList;
-import java.util.List;
+
+import com.backend.backend.controller.response.UserResponse;
 
 @Entity
 public class MyUser extends MyEntity {

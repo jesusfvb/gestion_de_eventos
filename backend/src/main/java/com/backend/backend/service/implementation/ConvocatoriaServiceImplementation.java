@@ -21,8 +21,18 @@ public class ConvocatoriaServiceImplementation implements ConvocatoriaService {
     }
 
     @Override
+    public List<Convocatoria> listByBossUsername(String username) {
+        return convocatoriaRepository.findAllByConvocatoriaBossUsername(username);
+    }
+
+    @Override
+    public Convocatoria getConvocatoriaById(Integer id) {
+        return convocatoriaRepository.findById(id).get();
+    }
+
+    @Override
     public Boolean isConvocatoriaBoss(String username) {
-        return  convocatoriaRepository.existsByConvocatoriaBossUsername(username);
+        return convocatoriaRepository.existsByConvocatoriaBossUsername(username);
     }
 
     @Override

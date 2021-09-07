@@ -12,6 +12,10 @@ public interface ConvocatoriaService {
 
     public List<Convocatoria> list();
 
+    public List<Convocatoria> listByBossUsername(String username);
+
+    public Convocatoria getConvocatoriaById(Integer id);
+
     public Boolean isConvocatoriaBoss(String username);
 
     public Boolean isConvocatoriaBoss(Integer id);

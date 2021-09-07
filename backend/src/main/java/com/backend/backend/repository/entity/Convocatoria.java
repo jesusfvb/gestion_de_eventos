@@ -1,11 +1,10 @@
 package com.backend.backend.repository.entity;
 
-import com.backend.backend.controller.response.ConvocatoriaResponse;
-import com.backend.backend.controller.response.UserResponse;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+
+import com.backend.backend.controller.response.ConvocatoriaResponse;
 
 @Entity
 public class Convocatoria extends MyEntity {
