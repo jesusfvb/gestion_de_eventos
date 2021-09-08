@@ -35,7 +35,7 @@ public class UserController {
         return ResponseEntity.ok(list);
     }
 
-    @PostMapping("/logIn")
+    @PostMapping("/login")
     public ResponseEntity<String> logIn(
             @RequestParam String username,
             @RequestParam String password

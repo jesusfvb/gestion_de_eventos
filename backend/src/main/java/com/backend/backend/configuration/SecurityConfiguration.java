@@ -20,7 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final String[] patterns = {
-            "/user/logIn",
+            "/user/login",
             "/",
             "/swagger-ui/*",
             "/v3/api-docs/*",

@@ -27,17 +27,18 @@ public class EventoController {
     private EventoService eventoService;
 
     @GetMapping
-    private ResponseEntity<List<EventoResponse>> getByIdConvocatoria(@RequestParam Integer id,
+    private ResponseEntity<List<EventoResponse>> getByIdConvocatoria(@RequestParam Integer idConvocatoria,
             @RequestParam State state) {
         List<EventoResponse> list = new LinkedList<>();
-        eventoService.getByIdConvocatoriaAndState(id, state).forEach(evento -> list.add(evento.transform()));
+        eventoService.getByIdConvocatoriaAndState(idConvocatoria, state)
+                .forEach(evento -> list.add(evento.transform()));
         return ResponseEntity.ok(list);
     }
 
     @GetMapping("/all")
-    private ResponseEntity<List<EventoResponse>> getByIdConvocatoria(@RequestParam Integer id) {
+    private ResponseEntity<List<EventoResponse>> getByIdConvocatoria(@RequestParam Integer idConvocatoria) {
         List<EventoResponse> list = new LinkedList<>();
-        eventoService.getByIdConvocatoria(id).forEach(evento -> list.add(evento.transform()));
+        eventoService.getByIdConvocatoria(idConvocatoria).forEach(evento -> list.add(evento.transform()));
         return ResponseEntity.ok(list);
     }
 
